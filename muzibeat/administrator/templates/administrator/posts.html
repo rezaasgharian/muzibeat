@@ -6,15 +6,13 @@
 
 </head>
 <body>
-{% if posts %}
-    {% for post in posts %}
-        <div class="col-md-4">
-           <h1>{{ post.title }}</h1>
-           <h1>{{ post.slug }}</h1>
-           <h1>{{ post.description }}</h1>
-            <img src="{{ post.thumbnail.url }}">
-        </div>
-    {% endfor %}
-{% endif %}
+
+<div class="col-md-4">
+    <h1>{{ post.title }}</h1>
+    <h1>{{ post.slug }}</h1>
+    <h1>{{ post.description }}</h1>
+    <img src="{{ post.thumbnail.url }}">
+</div>
+
 </body>
 </html>

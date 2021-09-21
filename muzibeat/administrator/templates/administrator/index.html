@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+
+</head>
+<body>
+<div class="col-md-4">
+    {% for post in posts %}
+        <a href ="{{ post.slug }}">{{ post.title }}</a>
+        <h1>{{ post.description|truncatewords:10 }}</h1>
+    {% endfor %}
+</div>
+
+</body>
+</html>
