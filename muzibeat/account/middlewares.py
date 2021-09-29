@@ -3,6 +3,7 @@ from django.contrib import messages
 
 LOGIN_EXEMPT_URLS = [
     '/login/',
+    '/admin/',
 
 ]
 
@@ -12,6 +13,6 @@ class LoginMiddleware:
     def __call__(self, request):
         if not request.user.is_authenticated and request.path not in LOGIN_EXEMPT_URLS:
             messages.error(request, 'you should login first', 'warning')
-            return redirect('account:login')
+            return redirect('login')
         response = self.get_response(request)
         return response
