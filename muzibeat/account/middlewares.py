@@ -13,6 +13,6 @@ class LoginMiddleware:
     def __call__(self, request):
         if not request.user.is_authenticated and request.path not in LOGIN_EXEMPT_URLS:
             messages.error(request, 'you should login first', 'warning')
-            return redirect('login')
+            return redirect('account:login')
         response = self.get_response(request)
         return response
