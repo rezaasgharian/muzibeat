@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 import administrator
 from django.urls import reverse
-from .forms import UserRegisterForm
+from .forms import *
 from django.contrib.auth import logout
 
 # Create your views here.
@@ -40,11 +40,10 @@ def Register(request):
     context = {'form': form}
     return render(request, 'account/register.html', context)
 
-<<<<<<< HEAD
 def Logout_View(request):
     logout(request)
     return redirect('login')
-=======
+
 def Logout_view(request):
     logout(request)
     return redirect('login')
@@ -62,4 +61,4 @@ def Logout_view(request):
 #
 #         send_mail(subject, message, sender, recipients)
 #         return HttpResponseRedirect('/thanks/')
->>>>>>> c1bef300c8a185fd8c7cbf9ca31d620a64f54636
+# >>>>>>> c1bef300c8a185fd8c7cbf9ca31d620a64f54636

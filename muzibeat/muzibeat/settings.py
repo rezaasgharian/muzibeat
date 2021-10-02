@@ -54,11 +54,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-<<<<<<< HEAD
-    #'muzibeat.middlewares.LoginMiddleware',
-=======
-    #'account.middlewares.LoginMiddleware',
->>>>>>> c1bef300c8a185fd8c7cbf9ca31d620a64f54636
+# <<<<<<< HEAD
+#     #'muzibeat.middlewares.LoginMiddleware',
+# =======
+#     #'account.middlewares.LoginMiddleware',
+# >>>>>>> c1bef300c8a185fd8c7cbf9ca31d620a64f54636
 ]
 
 ROOT_URLCONF = 'muzibeat.urls'
@@ -80,6 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'muzibeat.wsgi.application'
+AUTH_USER_MODEL = 'account.User'
 
 
 # Database
