@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 import administrator
 from django.urls import reverse
 from .forms import UserRegisterForm
+from django.contrib.auth import logout
 
 # Create your views here.
 def Login(request):
@@ -31,9 +32,27 @@ def Register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            User.objects.create_user(username= data['user_name'], email= data['email'], first_name= data['first_name'], last_name= data['last_name'], password= data['password_1'])
-            return redirect('administrator:login')
+            User.objects.create_user(username= data['user_name'], email= data['email'], first_name= data['first_name'], last_name= data['last_name'], password= data['password'])
+            return redirect('login')
     else:
         form = UserRegisterForm()
     context = {'form': form}
     return render(request, 'account/register.html', context)
+
+def Logout_view(request):
+    logout(request)
+    return redirect('login')
+
+# def Email(request):
+#     if form.is_valid():
+#         subject = form.cleaned_data['subject']
+#         message = form.cleaned_data['message']
+#         sender = form.cleaned_data['sender']
+#         cc_myself = form.cleaned_data['cc_myself']
+#
+#         recipients = ['info@example.com']
+#         if cc_myself:
+#             recipients.append(sender)
+#
+#         send_mail(subject, message, sender, recipients)
+#         return HttpResponseRedirect('/thanks/')

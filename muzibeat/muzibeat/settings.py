@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'account.middlewares.LoginMiddleware',
+    #'account.middlewares.LoginMiddleware',
 ]
 
 ROOT_URLCONF = 'muzibeat.urls'
@@ -89,7 +89,9 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '',
-
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+        }
     }
 }
 

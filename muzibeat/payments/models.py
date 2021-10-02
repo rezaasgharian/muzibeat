@@ -16,5 +16,8 @@ class Payment(models.Model):
     status = models.CharField(max_length=1, choices=status_choices)
     date = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
+
+
+    def __int__(self):
         return self.status
+
