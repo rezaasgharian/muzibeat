@@ -10,6 +10,7 @@ class UserRegisterForm(forms.Form):
     password = forms.CharField(max_length=50)
 
 
+
 # class ContactForm(forms.Form):
 #     subject = forms.CharField(max_length=100)
 #     message = forms.CharField(widget=forms.Textarea)
