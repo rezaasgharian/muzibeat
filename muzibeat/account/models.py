@@ -1,11 +1,12 @@
 from django.db import models
 from shortuuidfield import ShortUUIDField
 from django.utils import timezone
+import uuid
 from django.contrib.auth.models import User, BaseUserManager, AbstractBaseUser
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self,email,username,uuid,password):
+    def create_user(self,email,username,password):
         if not email:
             raise ValueError('Users must have an email address')
         if not username:
@@ -16,8 +17,8 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self,email,username,uuid,password):
-        user = self.create_user(email,username,uuid,password=None)
+    def create_superuser(self,email,username,password):
+        user = self.create_user(email,username,password=None)
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -25,7 +26,7 @@ class MyUserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
         email = models.EmailField(verbose_name='email address',max_length=255,unique=True)
-        uuid = ShortUUIDField(unique=True)
+        uuid = models.UUIDField(default=uuid.uuid4 ,editable=False)
         username = models.CharField(unique=True,max_length=40)
         user_id = models.AutoField(primary_key=True,auto_created=True)
         desc = models.TextField(blank=True)
