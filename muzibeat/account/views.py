@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 import administrator
 from django.urls import reverse
+from shortuuidfield import ShortUUIDField
 from .forms import *
 from django.contrib.auth import logout
 
@@ -14,7 +15,6 @@ def Login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user=authenticate(request, username=username, password=password)
-
         if user is not None:
             login(request,user)
             return HttpResponseRedirect(reverse(administrator.views.Posts))
@@ -30,19 +30,17 @@ def Login(request):
 
 def Register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
+        form = UserCreateForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            User.objects.create_user(username= data['user_name'], email= data['email'], first_name= data['first_name'], last_name= data['last_name'], password= data['password'])
+            User.objects.create_user(username= data['username'], email= data['email'] , password= data['password'])
             return redirect('login')
     else:
-        form = UserRegisterForm()
+        form = UserCreateForm()
     context = {'form': form}
     return render(request, 'account/register.html', context)
 
-def Logout_View(request):
-    logout(request)
-    return redirect('login')
+
 
 def Logout_view(request):
     logout(request)

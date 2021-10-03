@@ -16,7 +16,7 @@ class UserAdmin(BaseUserAdmin):
         ('Permission', {'fields':('is_active',)}),
     )
     add_fieldsets = (
-        (None, {'fields':('email','username','password1','password2')}),
+        (None, {'fields':('email','username','password','password_Confirmation')}),
     )
     search_fields = ('email',)
     ordering = ('email',)
@@ -31,4 +31,4 @@ class UserChangeForm(admin.ModelAdmin):
     form = UserChangeForm
 
 admin.site.register(User, UserAdmin)
-admin.site.unregister(Group)
+# admin.site.unregister(Group)
