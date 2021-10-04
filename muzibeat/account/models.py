@@ -50,3 +50,8 @@ class User(AbstractBaseUser):
         @property
         def is_staff(self):
             return self.is_admin
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.EmailField(verbose_name='email address',max_length=255,unique=True)

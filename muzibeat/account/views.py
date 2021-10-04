@@ -7,17 +7,19 @@ import administrator
 from django.urls import reverse
 from shortuuidfield import ShortUUIDField
 from .forms import *
+from .models import *
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 # Create your views here.
 def Login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('email')
         password = request.POST.get('password')
         user=authenticate(request, username=username, password=password)
         if user is not None:
             login(request,user)
-            return HttpResponseRedirect(reverse(administrator.views.Posts))
+            return HttpResponseRedirect(reverse(Profile))
         else:
             context = {
                 "username": username,
@@ -41,10 +43,20 @@ def Register(request):
     return render(request, 'account/register.html', context)
 
 
-
+@login_required(login_url='/login/')
 def Logout_view(request):
     logout(request)
     return redirect('login')
+
+
+@login_required(login_url='/login/')
+def Profiles(request):
+    profile = Profile.objects.get(user_id=request.user.user_id)
+    return render(request, 'account/profile.html',{'profile':profile})
+
+
+
+
 
 # def Email(request):
 #     if form.is_valid():
@@ -59,4 +71,3 @@ def Logout_view(request):
 #
 #         send_mail(subject, message, sender, recipients)
 #         return HttpResponseRedirect('/thanks/')
-# >>>>>>> c1bef300c8a185fd8c7cbf9ca31d620a64f54636
