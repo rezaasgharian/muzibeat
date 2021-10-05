@@ -1,12 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <title> Profile </title>
 </head>
 <body>
+    {% csrf_token %}
     <h1> Profile </h1>
 <table>
+
     <tr>
         <th> {{ profile.user.username }} </th>
     </tr>
@@ -14,5 +17,7 @@
         <th> {{ profile.user.email }} </th>
     </tr>
 </table>
+        <a href="{% url 'account:update' %}"> Update </a>
+
 </body>
 </html>

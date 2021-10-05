@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User , Profile
 from django.core.mail import send_mail
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
@@ -33,3 +33,14 @@ class UserChangeForm(forms.ModelForm):
 
     def clean_password(self):
         return self.initial['password']
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email','username']
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['email']

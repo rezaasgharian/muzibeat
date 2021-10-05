@@ -30,6 +30,9 @@ class UserChangeForm(admin.ModelAdmin):
     readonly_fields=('uuid',)
     form = UserChangeForm
 
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['user','email']
+
 admin.site.register(User, UserAdmin)
-admin.site.register(Profile)
+admin.site.register(Profile, ProfileAdmin)
 # admin.site.unregister(Group)
