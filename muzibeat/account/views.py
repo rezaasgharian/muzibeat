@@ -7,17 +7,26 @@ import administrator
 from django.urls import reverse
 from shortuuidfield import ShortUUIDField
 from .forms import *
+from .models import *
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 # Create your views here.
+@login_required(login_url='/login/')
+def Profiles(request):
+    context={
+        'profile' : Profile.objects.get(user_id=request.user.user_id)
+    }
+    return render(request,'account/profile.html',context)
+
 def Login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('email')
         password = request.POST.get('password')
         user=authenticate(request, username=username, password=password)
         if user is not None:
             login(request,user)
-            return HttpResponseRedirect(reverse(administrator.views.Posts))
+            return redirect("account:profile")
         else:
             context = {
                 "username": username,
@@ -33,7 +42,8 @@ def Register(request):
         form = UserCreateForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            User.objects.create_user(username= data['username'], email= data['email'] , password= data['password'])
+            user = User.objects.create_user(username= data['username'], email= data['email'] , password= data['password'])
+            user.save()
             return redirect('login')
     else:
         form = UserCreateForm()
@@ -41,10 +51,29 @@ def Register(request):
     return render(request, 'account/register.html', context)
 
 
-
+@login_required(login_url='/login/')
 def Logout_view(request):
     logout(request)
     return redirect('login')
+
+
+
+
+def User_Update(request):
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
+        if user_form and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request,'Update Successfully','success')
+            return redirect('account:profile')
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+    context = {'user_form':user_form, 'profile_form':profile_form}
+    return render(request,'account/update.html', context)
+
 
 # def Email(request):
 #     if form.is_valid():
@@ -59,4 +88,3 @@ def Logout_view(request):
 #
 #         send_mail(subject, message, sender, recipients)
 #         return HttpResponseRedirect('/thanks/')
-# >>>>>>> c1bef300c8a185fd8c7cbf9ca31d620a64f54636

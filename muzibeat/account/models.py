@@ -2,9 +2,11 @@ from django.db import models
 from shortuuidfield import ShortUUIDField
 from django.utils import timezone
 import uuid
-from django.contrib.auth import get_user_model
-from django.db.models import Q
 from django.contrib.auth.models import User, BaseUserManager, AbstractBaseUser
+from django.db.models.signals import post_save
+
+
+
 
 
 class MyUserManager(BaseUserManager):
@@ -39,6 +41,7 @@ class User(AbstractBaseUser):
         REQUIRED_FIELDS = ['username']
         objects = MyUserManager()
 
+
         def __str__(self):
             return self.email
 
@@ -52,3 +55,15 @@ class User(AbstractBaseUser):
         def is_staff(self):
             return self.is_admin
 
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.EmailField(verbose_name='email address',max_length=255,unique=True)
+
+def save_profile_user(sender, **kwargs):
+    if kwargs['created']:
+        profile_user = Profile(user= kwargs['instance'])
+        profile_user.save()
+
+
+post_save.connect(save_profile_user, sender=User)
