@@ -2,6 +2,8 @@ from django.db import models
 from shortuuidfield import ShortUUIDField
 from django.utils import timezone
 import uuid
+from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.contrib.auth.models import User, BaseUserManager, AbstractBaseUser
 
 
@@ -37,7 +39,6 @@ class User(AbstractBaseUser):
         REQUIRED_FIELDS = ['username']
         objects = MyUserManager()
 
-
         def __str__(self):
             return self.email
 
@@ -50,3 +51,4 @@ class User(AbstractBaseUser):
         @property
         def is_staff(self):
             return self.is_admin
+

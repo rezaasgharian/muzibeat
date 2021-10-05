@@ -31,4 +31,4 @@ class UserChangeForm(admin.ModelAdmin):
     form = UserChangeForm
 
 admin.site.register(User, UserAdmin)
-# admin.site.unregister(Group)
+admin.site.unregister(Group)
