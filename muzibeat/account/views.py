@@ -10,14 +10,19 @@ from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+
+
 
 # Create your views here.
 @login_required(login_url='/login/')
 def Profiles(request):
     context={
-        'profile' : Profile.objects.get(user_id=request.user.user_id)
+        'profile': Profile.objects.get(user_id=request.user.user_id)
     }
     return render(request,'account/profile.html',context)
+
 
 def Login(request):
     if request.method == 'POST':
@@ -57,8 +62,6 @@ def Logout_view(request):
     return redirect('login')
 
 
-
-
 def User_Update(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -73,6 +76,27 @@ def User_Update(request):
         profile_form = ProfileUpdateForm(instance=request.user.profile)
     context = {'user_form':user_form, 'profile_form':profile_form}
     return render(request,'account/update.html', context)
+
+
+def Change_Password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user,request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Password is successfully changed')
+            return redirect('account:profile')
+        else:
+            messages.error(request, 'Password is wrong!', 'danger')
+            return redirect('account:change')
+
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'account/change.html', {'form':form})
+
+
+
+
 
 
 # def Email(request):
