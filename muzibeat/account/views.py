@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-# from django.contrib.auth.views import login
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
@@ -40,24 +39,25 @@ def Login(request):
             }
             return render(request, "account/login.html", context)
     else:
-        if request.user.is_authenticated:
-            return redirect('account:profile')
         return render(request, 'account/login.html',{})
+
 
 def Register(request):
     if request.method == 'POST':
         form = UserCreateForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user = User.objects.create_user(username= data['username'], email= data['email'] , password= data['password'])
+            user = User.objects.create_user(username=data['username'], email=data['email'], password=data['password_Confirmation'])
             user.save()
             return redirect('account:login')
+        else:
+            print(form.errors)  # To see the form errors in the console.
+
+
     else:
-        if request.user.is_authenticated:
-            return redirect('account:profile')
         form = UserCreateForm()
     context = {'form': form}
-    return render(request, 'account/register.html', context)
+    return render(request, 'account/Rg.html', context)
 
 
 @login_required(login_url='/login/')
