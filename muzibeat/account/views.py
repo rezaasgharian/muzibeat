@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+# from django.contrib.auth.views import login
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
@@ -39,8 +40,9 @@ def Login(request):
             }
             return render(request, "account/login.html", context)
     else:
+        if request.user.is_authenticated:
+            return redirect('account:profile')
         return render(request, 'account/login.html',{})
-
 
 def Register(request):
     if request.method == 'POST':
@@ -49,8 +51,10 @@ def Register(request):
             data = form.cleaned_data
             user = User.objects.create_user(username= data['username'], email= data['email'] , password= data['password'])
             user.save()
-            return redirect('login')
+            return redirect('account:login')
     else:
+        if request.user.is_authenticated:
+            return redirect('account:profile')
         form = UserCreateForm()
     context = {'form': form}
     return render(request, 'account/register.html', context)
@@ -59,7 +63,7 @@ def Register(request):
 @login_required(login_url='/login/')
 def Logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('account:login')
 
 
 def User_Update(request):

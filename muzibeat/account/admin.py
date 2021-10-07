@@ -31,7 +31,14 @@ class UserChangeForm(admin.ModelAdmin):
     form = UserChangeForm
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user','email']
+    list_display = ['user']
 
 admin.site.register(User, UserAdmin)
+admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Post_user)
+admin.site.register(Images)
+admin.site.register(Videos)
+admin.site.register(Voices)
+admin.site.register(Files)
+
 # admin.site.unregister(Group)
