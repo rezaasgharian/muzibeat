@@ -24,6 +24,7 @@ def Profiles(request):
     return render(request,'account/profile.html',context)
 
 
+
 def Login(request):
     if request.method == 'POST':
         username = request.POST.get('email')
@@ -45,21 +46,26 @@ def Login(request):
 def Register(request):
     if request.method == 'POST':
         form = UserCreateForm(request.POST)
+        print(form.is_valid())
         if form.is_valid():
             data = form.cleaned_data
-            user = User.objects.create_user(username= data['username'], email= data['email'] , password= data['password'])
+            user = User.objects.create_user(username=data['username'], email=data['email'], password=data['password_Confirmation'])
             user.save()
-            return redirect('login')
+            return redirect('account:login')
+        else:
+            print(form.errors)  # To see the form errors in the console.
+
+
     else:
         form = UserCreateForm()
     context = {'form': form}
-    return render(request, 'account/register.html', context)
+    return render(request, 'account/Rg.html', context)
 
 
 @login_required(login_url='/login/')
 def Logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('account:login')
 
 
 def User_Update(request):
