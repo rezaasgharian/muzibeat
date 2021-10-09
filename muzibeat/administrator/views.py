@@ -15,4 +15,4 @@ def detail(request ,slug):
     context = {
         'post':  get_object_or_404(Post , slug=slug , status = "p")
     }
-    return render(request, "administrator/posts.html",context)
+    return render(request, "administrator/create_post.html",context)

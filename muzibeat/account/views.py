@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+from .models import Post_user
 from django.http import HttpResponse, HttpResponseRedirect
 import administrator
 from django.urls import reverse
@@ -16,14 +17,6 @@ from django.contrib.auth import update_session_auth_hash
 
 
 # Create your views here.
-@login_required(login_url='/login/')
-def Profiles(request):
-    context={
-        'profile': Profile.objects.get(user_id=request.user.user_id)
-    }
-    return render(request,'account/profile.html',context)
-
-
 def Login(request):
     if request.method == 'POST':
         username = request.POST.get('email')
@@ -50,20 +43,46 @@ def Register(request):
             user = User.objects.create_user(username=data['username'], email=data['email'], password=data['password_Confirmation'])
             user.save()
             return redirect('account:login')
-        else:
-            print(form.errors)  # To see the form errors in the console.
 
 
     else:
         form = UserCreateForm()
     context = {'form': form}
-    return render(request, 'account/Rg.html', context)
+    return render(request, 'account/register.html', context)
 
 
 @login_required(login_url='/login/')
 def Logout_view(request):
     logout(request)
     return redirect('account:login')
+
+
+@login_required(login_url='/login/')
+def Profiles(request):
+    context={
+        'profile': Profile.objects.get(user_id=request.user.user_id)
+    }
+    return render(request,'account/profile.html',context)
+
+
+@login_required(login_url='/login/')
+def Post_users(request):
+    if request.method == 'POST':
+        if not request.POST['title'] or len(request.POST['title'])<3:
+            raise ValueError("title must be valid")
+        if not request.POST['des'] or len(request.POST['des'])<3:
+            raise ValueError("description must be valid")
+        post = Post_user.objects.create(user_id=request.user.user_id,title=request.POST['title'],description=request.POST['des'])
+        post.save()
+    return render(request, 'account/create_post.html')
+
+@login_required(login_url='/login/')
+def User_post(request):
+    context = {
+        'posts': Post_user.objects.all()
+    }
+    return render(request, 'account/posts.html', context)
+
 
 
 def User_Update(request):
@@ -100,19 +119,6 @@ def Change_Password(request):
 
 
 
+######################################################
 
 
-
-# def Email(request):
-#     if form.is_valid():
-#         subject = form.cleaned_data['subject']
-#         message = form.cleaned_data['message']
-#         sender = form.cleaned_data['sender']
-#         cc_myself = form.cleaned_data['cc_myself']
-#
-#         recipients = ['info@example.com']
-#         if cc_myself:
-#             recipients.append(sender)
-#
-#         send_mail(subject, message, sender, recipients)
-#         return HttpResponseRedirect('/thanks/')

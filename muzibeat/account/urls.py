@@ -10,4 +10,6 @@ urlpatterns = [
     path('profile/', Profiles, name="profile"),
     path('update/', User_Update, name="update"),
     path('change/', Change_Password, name="change"),
+    path('create/', Post_users, name="postuser"),
+    path('User_post/', User_post, name="User_post"),
 ]

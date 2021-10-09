@@ -16,7 +16,7 @@ class MyUserManager(BaseUserManager):
         if not email:
             raise ValueError('Users must have an email address')
         if not username:
-            raise ValueError('Users must have an username')
+            raise ValueError('Users must have a username')
 
         user = self.model(email=self.normalize_email(email),username=username)
         user.set_password(password)
@@ -72,7 +72,6 @@ class Profile(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    payments = models.ForeignKey(Payment, on_delete=models.CASCADE,null=True, blank=True)
     desc = models.TextField(blank=True)
     image = models.ImageField(upload_to='avatars/')
     status = models.CharField(max_length=5, choices=STATUS_CHOICES)
@@ -88,12 +87,13 @@ def save_profile_user(sender, **kwargs):
 post_save.connect(save_profile_user, sender=User)
 
 class Post_user(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     title = models.CharField(max_length=40)
     description = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
 
 class Images(models.Model):
     post_id = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
