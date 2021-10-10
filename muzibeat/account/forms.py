@@ -7,7 +7,6 @@ class UserCreateForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password_Confirmation = forms.CharField(widget=forms.PasswordInput)
 
-
     class Meta:
         model = User
         fields = ['email','username']

@@ -73,16 +73,24 @@ def Post_users(request):
         if not request.POST['des'] or len(request.POST['des'])<3:
             raise ValueError("description must be valid")
         post = Post_user.objects.create(user_id=request.user.user_id,title=request.POST['title'],description=request.POST['des'])
+        img = Images.objects.create(post_id=post.id, thumbnail=request.FILES['thumbnail'])
+        video = Videos.objects.create(post_id=post.id, file=request.FILES['video'])
+        voice = Voices.objects.create(post_id=post.id, file=request.FILES['voice'])
+        file = Files.objects.create(post_id=post.id, file=request.FILES['file'])
         post.save()
+        img.save()
+        video.save()
+        voice.save()
+        file.save()
     return render(request, 'account/create_post.html')
+
 
 @login_required(login_url='/login/')
 def User_post(request):
     context = {
         'posts': Post_user.objects.all()
     }
-    return render(request, 'account/posts.html', context)
-
+    return render(request,'account/posts.html',context)
 
 
 def User_Update(request):
@@ -101,6 +109,7 @@ def User_Update(request):
     return render(request,'account/update.html', context)
 
 
+
 def Change_Password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user,request.POST)
@@ -116,9 +125,5 @@ def Change_Password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'account/change.html', {'form':form})
-
-
-
-######################################################
 
 
