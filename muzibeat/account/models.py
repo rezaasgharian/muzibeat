@@ -9,8 +9,6 @@ from django_countries.fields import CountryField
 
 
 
-
-
 class MyUserManager(BaseUserManager):
     def create_user(self,email,username,password):
         if not email:
@@ -96,14 +94,14 @@ class Post_user(models.Model):
 
 
 class Images(models.Model):
-    post_id = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
+    post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
     thumbnail = models.ImageField(upload_to='Images/')
 class Videos(models.Model):
-    post_id = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
+    post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
     file = models.FileField(upload_to='videos/')
 class Voices(models.Model):
-    post_id = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
+    post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
     file = models.FileField(upload_to='Voices/')
 class Files(models.Model):
-    post_id = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
+    post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
     file = models.FileField(upload_to='Files/')

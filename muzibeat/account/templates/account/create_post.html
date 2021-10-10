@@ -6,7 +6,7 @@
 </head>
 <body>
 
-    <form method="POST" action="">
+    <form method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
         <p>
             <div>
@@ -23,6 +23,12 @@
             <textarea name="des">
                 pleas enter a descriptions
             </textarea>
+        </div>
+        <div>
+            <input type="file" name="thumbnail" multiple>
+            <input type="file" name="video" multiple>
+            <input type="file" name="voice" multiple>
+            <input type="file" name="file" multiple>
         </div>
         <input type="submit" name="submit">
 

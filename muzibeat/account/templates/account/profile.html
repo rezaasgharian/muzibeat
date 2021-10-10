@@ -16,6 +16,20 @@
     <tr>
         <th> {{ profile.user.email }} </th>
     </tr>
+    <tr>
+        <img src="/media/{{ profile.image }}" width="800" height="600"/>
+    </tr>
+    <tr>
+        <video width="320" height="240" controls>
+            <source src="/media/{{ profile.video }}" type="video/mp4">
+        </video>
+    </tr>
+    <tr>
+        <audio width="320" height="240" controls>
+            <source src="/media/{{ profile.voice }}" type="voice/ogg">
+            <source src="/media/{{ profile.voice }}" type="voice/mp3">
+        </audio>
+    </tr>
 </table>
         <a href="{% url 'account:update' %}"> Update </a>
     &nbsp; &nbsp;
