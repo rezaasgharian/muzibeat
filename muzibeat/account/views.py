@@ -13,11 +13,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-
+from pprint import pprint
 
 
 # Create your views here.
 def Login(request):
+    if request.user.is_authenticated:
+        return redirect('account:profile')
     if request.method == 'POST':
         username = request.POST.get('email')
         password = request.POST.get('password')
@@ -36,6 +38,8 @@ def Login(request):
 
 
 def Register(request):
+    if request.user.is_authenticated:
+        return redirect('account:profile')
     if request.method == 'POST':
         form = UserCreateForm(request.POST)
         if form.is_valid():
@@ -43,8 +47,6 @@ def Register(request):
             user = User.objects.create_user(username=data['username'], email=data['email'], password=data['password_Confirmation'])
             user.save()
             return redirect('account:login')
-
-
     else:
         form = UserCreateForm()
     context = {'form': form}
@@ -57,12 +59,15 @@ def Logout_view(request):
     return redirect('account:login')
 
 
+
+
 @login_required(login_url='/login/')
 def Profiles(request):
     context={
-        'profile': Profile.objects.get(user_id=request.user.user_id)
+        'profile': Profile.objects.get(user_id=request.user.user_id),
     }
     return render(request,'account/profile.html',context)
+
 
 
 @login_required(login_url='/login/')
@@ -86,10 +91,23 @@ def Post_users(request):
 
 
 @login_required(login_url='/login/')
-def User_post(request):
+def User_post(request,user_id):
+    posts = Post_user.objects.filter(user_id=user_id)
+    for post in posts:
+        pprint(post.image)
+        images = Images.objects.filter(post_id=post.id)
+        for image in images :
+            pprint(image.post)
     context = {
-        'posts': Post_user.objects.all()
+        'posts':posts,
+        'images':images,
+
     }
+    # for post in posts:
+    #     videos = Videos.objects.filter(post_id=post.id)
+    #     voices = Voices.objects.filter(post_id=post.id)
+    #     files = Files.objects.filter(post_id=post.id)
+        # pprint(images.post)
     return render(request,'account/posts.html',context)
 
 

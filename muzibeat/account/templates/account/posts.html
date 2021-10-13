@@ -6,11 +6,24 @@
 </head>
 <body>
 
-    <p>
-        {% for post in posts %}
-            {{ post.title }}
-        {% endfor %}
-    </p>
+    <div>
+            {% for post in posts %}
+            <p>{{ post.title }}</p>
+            <p>{{ post.description}}</p>
+                {% for image in images %}
+            <img src="{{ image.thumbnail.url }}" width="150" height="200">
+                {% endfor %}
+
+            {% endfor %}
+
+
+<!--        <video width="320" height="240" controls>-->
+<!--            <source src="{{ videos.file.url }}" type="video/mp4">-->
+<!--        </video>-->
+<!--        <audio width="320" height="240" controls>-->
+<!--            <source src="{{ voices.file.url }}" type="voice/mp3">-->
+<!--        </audio>-->
+    </div>
 
 </body>
 </html>
