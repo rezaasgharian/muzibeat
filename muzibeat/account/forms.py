@@ -38,9 +38,9 @@ class UserChangeForm(forms.ModelForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['email','username','password']
+        fields = ['email','username']
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = []
+        fields = ['avatar']

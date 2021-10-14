@@ -92,12 +92,14 @@ def User_post(request):
     }
     return render(request,'account/posts.html',context)
 
-
+@login_required(login_url='/login/')
 def User_Update(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
-        if user_form and profile_form.is_valid():
+        profile_form = ProfileUpdateForm(request.POST,request.FILES, instance=request.user.profile)
+        print(request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            print(profile_form)
             user_form.save()
             profile_form.save()
             messages.success(request,'Update Successfully','success')
