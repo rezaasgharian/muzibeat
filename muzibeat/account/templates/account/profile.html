@@ -10,29 +10,30 @@
     <h1> Profile </h1>
 <table>
 
-
     <tr>
         <th> {{ profile.user.username }} </th>
     </tr>
     <tr>
         <th> {{ profile.user.email }} </th>
     </tr>
-
-        <tr>
-            <img src="/media/{{ profile.image }}">
-
-        </tr>
-        <tr>
-            <video width="320" height="240" controls>
-                <source src="/media/{{ profile.video }}" type="video/mp4">
-            </video>
-        </tr>
-        <tr>
-            <audio width="320" height="240" controls>
-                <source src="/media/{{ profile.voice }}" type="voice/ogg">
-                <source src="/media/{{ profile.voice }}" type="voice/mp3">
-            </audio>
-        </tr>
+    <tr>
+<!--        <img src="/media/{{ profile.image }}" width="600" height="400"/>-->
+        <img src="{{ profile.image.url }}" width="200" height="200" style="border-radius: 50%"/>
+    </tr>
+    <tr>
+        <video width="320" height="240" controls>
+            <source src="/media/{{ profile.video }}" type="video/mp4">
+        </video>
+    </tr>
+    <tr>
+        <audio width="320" height="240" controls>
+            <source src="/media/{{ profile.voice }}" type="voice/ogg">
+            <source src="/media/{{ profile.voice }}" type="voice/mp3">
+        </audio>
+    </tr>
+    <tr>
+        <input type="file" id="myfile" name="myfile"> </audio>
+    </tr>
 </table>
         <a href="{% url 'account:update' %}"> Update </a>
     &nbsp; &nbsp;
