@@ -93,14 +93,16 @@ def Post_users(request):
 @login_required(login_url='/login/')
 def User_post(request,user_id):
     posts = Post_user.objects.filter(user_id=user_id)
-    for post in posts:
-        pprint(post.image)
-        images = Images.objects.filter(post_id=post.id)
-        for image in images :
-            pprint(image.post)
+    images = Images.objects.all()
+    videos = Videos.objects.all()
+    voices = Voices.objects.all()
+    files = Files.objects.all()
     context = {
         'posts':posts,
         'images':images,
+        'videos':videos,
+        'voices':voices,
+        'files':files
 
     }
     # for post in posts:
@@ -115,7 +117,7 @@ def User_Update(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
-        if user_form and profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             messages.success(request,'Update Successfully','success')
