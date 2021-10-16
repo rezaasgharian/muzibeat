@@ -71,7 +71,7 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     desc = models.TextField(blank=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True)
+    image = models.ImageField(upload_to='avatars/', blank=True)
     status = models.CharField(max_length=5, choices=STATUS_CHOICES)
     expert = models.CharField(max_length=3, choices=EXPERT_CHOICES , default=3)
     nationality = CountryField()
