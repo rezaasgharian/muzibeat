@@ -6,11 +6,11 @@
 </head>
 <body>
     <h1> Update Page </h1>
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ user_form.as_p }}
         {{ profile_form.as_p }}
-    <button type='Submit'> Update </button>
+        <input type="submit">
     </form>
 </body>
 </html>

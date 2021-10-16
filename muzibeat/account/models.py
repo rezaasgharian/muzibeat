@@ -71,7 +71,7 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     desc = models.TextField(blank=True)
-    image = models.ImageField(upload_to='avatars/')
+    avatar = models.ImageField(upload_to='avatars/', blank=True)
     status = models.CharField(max_length=5, choices=STATUS_CHOICES)
     expert = models.CharField(max_length=3, choices=EXPERT_CHOICES , default=3)
     nationality = CountryField()
@@ -88,6 +88,7 @@ class Post_user(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     title = models.CharField(max_length=40)
     description = models.TextField()
+    avatar = models.ImageField(null=True, blank=True)
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
