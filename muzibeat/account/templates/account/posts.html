@@ -6,11 +6,40 @@
 </head>
 <body>
 
-    <p>
-        {% for post in posts %}
-            {{ post.title }}
-        {% endfor %}
-    </p>
+    <div>
+            {% for post in posts %}
+            <p>{{ post.title }}</p>
+            <p>{{ post.description}}</p>
+            {% for image in images %}
+                {% if image.post_id == post.id %}
+            <img src="{{ image.thumbnail.url }}" width="200px" height="200px"/>
+                {% endif %}
+            {% endfor %}
+        {% for video in videos %}
+                {% if video.post_id == post.id %}
+        <p>{{ video.file }}</p>
+                {% endif %}
+            {% endfor %}
+         {% for voice in voices %}
+                {% if voice.post_id == post.id %}
+        <p>{{ voice.file }}</p>
+                {% endif %}
+            {% endfor %}
+         {% for file in files %}
+                {% if file.post_id == post.id %}
+        <p>{{ file.file }}</p>
+                {% endif %}
+            {% endfor %}
+            {% endfor %}
+
+
+<!--        <video width="320" height="240" controls>-->
+<!--            <source src="{{ videos.file.url }}" type="video/mp4">-->
+<!--        </video>-->
+<!--        <audio width="320" height="240" controls>-->
+<!--            <source src="{{ voices.file.url }}" type="voice/mp3">-->
+<!--        </audio>-->
+    </div>
 
 </body>
 </html>
