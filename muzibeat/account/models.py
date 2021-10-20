@@ -58,7 +58,7 @@ class Profile(models.Model):
         ('s', 'Sad'),
         ('b', 'Busy'),
         ('a', 'Available'),
-        ('m', 'Motivate'),
+        (',', 'Motivate'),
         ('l', 'Love'),
     )
     EXPERT_CHOICES =(
@@ -71,8 +71,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     desc = models.TextField(blank=True)
     image = models.ImageField(upload_to='avatars/', blank=True)
-    status = models.CharField(max_length=5, choices=STATUS_CHOICES)
-    expert = models.CharField(max_length=3, choices=EXPERT_CHOICES , default=3)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    expert = models.CharField(max_length=10, choices=EXPERT_CHOICES , default=3)
     nationality = CountryField()
 
 def save_profile_user(sender, **kwargs):
@@ -90,7 +90,6 @@ class Post_user(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
 
 class Images(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)

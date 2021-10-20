@@ -17,15 +17,13 @@
         <th> {{ profile.user.email }} </th>
     </tr>
     <tr>
-        <th> {{ profile.status }} </th>
+        {{ profile.desc }}
     </tr>
+        {{profile.status}}
     <tr>
-        <th> {{ profile.desc }} </th>
-    </tr>
-    <tr>
-<!--        <img src="/media/{{ profile.image }}" width="600" height="400"/>-->
         <img src="/media/{{ profile.image }}" width="200" height="200" style="border-radius: 50%"/>
     </tr>
+
 </table>
         <a href="{% url 'account:update' %}"> Update </a>
         <a href="{% url 'account:change' %}"> Change Password </a>
