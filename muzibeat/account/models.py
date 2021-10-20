@@ -8,7 +8,6 @@ from payments.models import Payment
 from django_countries.fields import CountryField
 
 
-
 class MyUserManager(BaseUserManager):
     def create_user(self,email,username,password):
         if not email:
@@ -88,7 +87,6 @@ class Post_user(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     title = models.CharField(max_length=40)
     description = models.TextField()
-    avatar = models.ImageField(null=True, blank=True)
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
