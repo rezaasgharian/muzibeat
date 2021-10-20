@@ -8,8 +8,35 @@
     <h1> Update Page </h1>
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ profile_form.as_p }}
+        <div>
+            username:<p>{{ user.username }}</p>
+            <input type="text" name="{{ user_form.username }}">
+        </div>
+        <br>
+        <div>
+            email:<p>{{ user.email }}</p>
+            <input type="email" name="{{ user_form.email }}">
+        </div>
+        <br>
+        <div>
+            <input type="file" name="image" >
+        </div>
+        <br>
+        <div>
+                {{ profile_form.nationality }}
+        </div>
+        <br>
+        <div>
+            {{ profile_form.expert }}
+        </div>
+        <br>
+        <div>
+           {{ profile_form.status }}
+        </div>
+        <br>
+        <div>
+            {{ profile_form.desc}}
+        </div>
         <input type="submit">
     </form>
 </body>
