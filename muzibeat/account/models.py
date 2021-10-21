@@ -8,25 +8,6 @@ from payments.models import Payment
 from django_countries.fields import CountryField
 
 
-
-class MyUserManager(BaseUserManager):
-    def create_user(self,email,username,password):
-        if not email:
-            raise ValueError('Users must have an email address')
-        if not username:
-            raise ValueError('Users must have a username')
-
-        user = self.model(email=self.normalize_email(email),username=username)
-        user.set_password(password)
-        return user
-
-    def create_superuser(self,email,username,password):
-        user = self.create_user(email,username,password=None)
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
-
-
 class User(AbstractBaseUser):
         email = models.EmailField(verbose_name='email address',max_length=255,unique=True)
         uuid = models.UUIDField(default=uuid.uuid4 ,editable=False)

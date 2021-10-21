@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Create Post</title>
+</head>
+<body>
+
+    <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>
+            <div>
+        <lable>
+            title
+        </lable>
+                <input type="text" maxlength="15" name="title">
+            </div>
+        </p>
+        <div>
+            <lable>
+            descriptions
+        </lable>
+            <textarea name="des">
+                pleas enter a descriptions
+            </textarea>
+        </div>
+        <div>
+            <input type="file" name="thumbnail" multiple>
+            <input type="file" name="video" multiple>
+            <input type="file" name="voice" multiple>
+            <input type="file" name="file" multiple>
+        </div>
+        <input type="submit" name="submit">
+
+    </form>
+
+</body>
+</html>
