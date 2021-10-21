@@ -111,11 +111,14 @@ def User_Update(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(request.POST,request.FILES, instance=request.user.profile)
+        print(user_form.is_valid())
 
-        if profile_form.is_valid():
+        if profile_form.is_valid() or user_form.is_valid():
             profile_form.save()
+            user_form.save()
             messages.success(request,'Update Successfully','success')
             return redirect('account:profile')
+
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
