@@ -26,7 +26,12 @@
 
 </table>
         <a href="{% url 'account:update' %}"> Update </a>
+    <br>
         <a href="{% url 'account:change' %}"> Change Password </a>
+    <br>
+        <a href="{% url 'account:postuser' %}"> Create post </a>
+    <br>
+        <a href="{{ profile.user.user_id }}"> {{ profile.user }} </a>
 
 </body>
 </html>

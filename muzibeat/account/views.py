@@ -64,7 +64,8 @@ def Logout_view(request):
 @login_required(login_url='/login/')
 def Profiles(request):
     context={
-        'profile': Profile.objects.get(user_id=request.user.user_id)
+        'profile': Profile.objects.get(user_id=request.user.user_id),
+        # 'post' : Post_user.objects.filter(user_id=user_id),
     }
     return render(request,'account/profile.html',context)
 
@@ -91,7 +92,7 @@ def Post_users(request):
 
 @login_required(login_url='/login/')
 def User_post(request,user_id):
-    posts = Post_user.objects.filter(user_id=user_id)
+    posts = Post_user.objects.filter(user_id=user_id )
     images = Images.objects.all()
     videos = Videos.objects.all()
     voices = Voices.objects.all()
@@ -111,7 +112,6 @@ def User_Update(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(request.POST,request.FILES, instance=request.user.profile)
-        print(user_form.is_valid())
 
         if profile_form.is_valid() or user_form.is_valid():
             profile_form.save()
