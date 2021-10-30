@@ -8,7 +8,8 @@
 
     <div>
             {% for post in posts %}
-            <p>{{ post.title }}</p>
+                {% if user == post.user_id%}
+                                <p>{{ post.title }}</p>
             <p>{{ post.description}}</p>
             {% for image in images %}
                 {% if image.post_id == post.id %}
@@ -30,6 +31,7 @@
         <p>{{ file.file }}</p>
                 {% endif %}
             {% endfor %}
+                {% endif %}
             {% endfor %}
 
 

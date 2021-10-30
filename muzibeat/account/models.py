@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, BaseUserManager, AbstractBaseUser
 from django.db.models.signals import post_save
 from payments.models import Payment
 from django_countries.fields import CountryField
-
+from .validators import validate_file
 
 
 class MyUserManager(BaseUserManager):
@@ -94,13 +94,13 @@ class Post_user(models.Model):
 
 class Images(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
-    thumbnail = models.ImageField(upload_to='Images/')
+    thumbnail = models.ImageField(upload_to='Images/', null=True, blank=True,validators=[validate_file])
 class Videos(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
-    file = models.FileField(upload_to='videos/')
+    file = models.FileField(upload_to='videos/', null=True, blank=True)
 class Voices(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
-    file = models.FileField(upload_to='Voices/')
+    file = models.FileField(upload_to='Voices/', null=True, blank=True)
 class Files(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
-    file = models.FileField(upload_to='Files/')
+    file = models.FileField(upload_to='Files/', null=True, blank=True)

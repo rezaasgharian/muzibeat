@@ -11,4 +11,5 @@ urlpatterns = [
     path('change/', Change_Password, name="change"),
     path('create/', Post_users, name="postuser"),
     path('User_post/<int:user_id>', User_post, name="User_post"),
+    path('Search_user/<str:username>', Search_user, name="Search_user"),
 ]
