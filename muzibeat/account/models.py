@@ -88,6 +88,7 @@ class Post_user(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     title = models.CharField(max_length=40)
     description = models.TextField()
+    user_like = models.ManyToManyField(User, related_name='images_liked', blank=True)
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -104,3 +105,5 @@ class Voices(models.Model):
 class Files(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
     file = models.FileField(upload_to='Files/')
+
+

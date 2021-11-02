@@ -13,6 +13,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.urls import reverse
+
 
 
 
@@ -103,9 +105,25 @@ def User_post(request,user_id):
         'videos':videos,
         'voices':voices,
         'files':files
-
     }
     return render(request,'account/posts.html',context)
+
+
+def edit_post(request, key):
+    post = Post_user.objects.get(pk=key)
+    if request.method == 'POST':
+        form = UserCreateForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            url = reverse('postpage', kwargs={'key': key})
+            return render(request, 'edit_done.html', {'url': url})
+        else:
+            form = UserCreateForm(instance=post)
+    else:
+        form = UserCreateForm(instance=post)
+    return render(request, 'edit.html', {'form':form, 'post':post})
+
+
 
 @login_required(login_url='/login/')
 def User_Update(request):

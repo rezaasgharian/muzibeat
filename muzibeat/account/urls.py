@@ -11,4 +11,6 @@ urlpatterns = [
     path('change/', Change_Password, name="change"),
     path('create/', Post_users, name="postuser"),
     path('User_post/<int:user_id>', User_post, name="User_post"),
+    path('edit/', edit_post, name='edit_post'),
+    # path('delete/', bv.del_post, name='del_post'),
 ]
