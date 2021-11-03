@@ -1,9 +1,8 @@
+import os
 from django.core.exceptions import ValidationError
 
-
 def validate_file(value):
-    value= str(value)
-    if value.endswith(".jpg") != True and value.endswith(".jpeg") != True and value.endswith(".png") != True:
-        raise ValidationError("Only PDF and Word Documents can be uploaded")
-    else:
-        return value
+    ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
+    valid_extensions = ['.pdf']
+    if not ext.lower() in valid_extensions:
+        raise ValidationError('Unsupported file extension.')

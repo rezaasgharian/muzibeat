@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+import os
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from matplotlib.image import thumbnail
 from .models import Post_user
 from django.http import HttpResponse, HttpResponseRedirect
-import administrator
 from django.urls import reverse
 from shortuuidfield import ShortUUIDField
 from .forms import *
@@ -55,6 +57,7 @@ def Register(request):
     return render(request, 'account/register.html', context)
 
 
+
 @login_required(login_url='/login/')
 def Logout_view(request):
     logout(request)
@@ -70,6 +73,7 @@ def Profiles(request):
     return render(request, 'account/profile.html', context)
 
 
+
 @login_required(login_url='/login/')
 def Post_users(request):
     if request.method == 'POST':
@@ -79,27 +83,60 @@ def Post_users(request):
             raise ValueError("description must be valid")
         post = Post_user.objects.create(user_id=request.user.user_id, title=request.POST['title'],
                                         description=request.POST['des'])
-        img = Images.objects.create(post_id=post.id, thumbnail=request.FILES['thumbnail'])
-        video = Videos.objects.create(post_id=post.id, file=request.FILES['video'])
-        voice = Voices.objects.create(post_id=post.id, file=request.FILES['voice'])
-        file = Files.objects.create(post_id=post.id, file=request.FILES['file'])
         post.save()
-        img.save()
-        video.save()
-        voice.save()
-        file.save()
+
+        if request.FILES.get('thumbnail', False):
+            image = request.FILES['thumbnail']
+            ext = os.path.splitext(str(image))[1]
+            valid_extensions = ['.jpg', '.jpeg', '.png']
+            if not ext.lower() in valid_extensions:
+                raise ValidationError('Unsupported file extension`.')
+            else:
+                img = Images.objects.create(post_id=post.id, thumbnail=request.FILES['thumbnail'])
+                img.save()
+
+        if request.FILES.get('video', False):
+            vid = request.FILES['video']
+            ext = os.path.splitext(str(vid))[1]
+            valid_extensions = ['.mp4', '.mkv', '.mov', '.wmv']
+            if not ext.lower() in valid_extensions:
+                raise ValidationError('Unsupported file extension.')
+            else:
+                video = Videos.objects.create(post_id=post.id, file=request.FILES['video'])
+                video.save()
+
+        if request.FILES.get('voice', False):
+            voc = request.FILES['voice']
+            ext = os.path.splitext(str(voc))[1]
+            valid_extensions = ['.mp3', '.ogg', '.aac']
+            if not ext.lower() in valid_extensions:
+                raise ValidationError('Unsupported file extension.')
+            else:
+                voice = Voices.objects.create(post_id=post.id, file=request.FILES['voice'])
+                voice.save()
+
+        if request.FILES.get('file', False):
+            fil = request.FILES['file']
+            ext = os.path.splitext(str(fil))[1]
+            valid_extensions = ['.pdf']
+            if not ext.lower() in valid_extensions:
+                raise ValidationError('Unsupported file extension.')
+            else:
+                file = Files.objects.create(post_id=post.id, file=request.FILES['file'])
+                file.save()
+
     return render(request, 'account/create_post.html')
 
 
 @login_required(login_url='/login/')
-def User_post(request ,user_id):
+def User_post(request, user_id):
     posts = Post_user.objects.filter(user_id=user_id)
     images = Images.objects.all()
     videos = Videos.objects.all()
     voices = Voices.objects.all()
     files = Files.objects.all()
     context = {
-        'user':request.user.user_id,
+        'user': request.user.user_id,
         'posts': posts,
         'images': images,
         'videos': videos,
@@ -152,4 +189,3 @@ def Change_Password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'account/change.html', {'form': form})
-
