@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, BaseUserManager, AbstractBaseUser
 from django.db.models.signals import post_save
 from payments.models import Payment
 from django_countries.fields import CountryField
-
+from django.urls import reverse
 
 
 class MyUserManager(BaseUserManager):
@@ -93,12 +93,18 @@ class Post_user(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def get_absolute_url(self):
+        return reverse('account:login')
+
+
 class Images(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
     thumbnail = models.ImageField(upload_to='Images/')
+
 class Videos(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
     file = models.FileField(upload_to='videos/')
+
 class Voices(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE,null=True, blank=True)
     file = models.FileField(upload_to='Voices/')
