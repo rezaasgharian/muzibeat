@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 import os
+from django.views.generic.edit import UpdateView
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from matplotlib.image import thumbnail
-from .models import Post_user
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from shortuuidfield import ShortUUIDField
@@ -145,6 +145,12 @@ def User_post(request, user_id):
 
     }
     return render(request, 'account/posts.html', context)
+
+
+class edit_post(UpdateView):
+    model = Post_user
+    template_name = 'account/update_post.html'
+    fields = ['title','description']
 
 
 @login_required(login_url='/login/')
