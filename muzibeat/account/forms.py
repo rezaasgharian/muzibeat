@@ -1,7 +1,8 @@
 from django import forms
-from .models import User , Profile
+from .models import User, Profile ,Images
 from django.core.mail import send_mail
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
 
 class UserCreateForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
@@ -9,7 +10,7 @@ class UserCreateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['email','username']
+        fields = ['email', 'username']
 
     def clean_password2(self):
         data = self.cleaned_data
@@ -27,9 +28,10 @@ class UserCreateForm(forms.ModelForm):
 
 class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField
+
     class Meta:
         model = User
-        fields = ['email','username']
+        fields = ['email', 'username']
 
     def clean_password(self):
         return self.initial['password']
@@ -38,10 +40,18 @@ class UserChangeForm(forms.ModelForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['email','username']
+        fields = ['email', 'username']
+
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image','status', 'desc','nationality','expert']
+        fields = ['image', 'status', 'desc', 'nationality', 'expert']
 
+
+# class ImageForm(forms.ModelForm):
+#     thumbnail = forms.ImageField()
+#
+#     class Meta:
+#         model = Images
+#         fields = ['thumbnail']
