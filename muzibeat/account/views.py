@@ -84,17 +84,22 @@ def Post_users(request):
                                         description=request.POST['des'])
         post.save()
 
-
         if request.FILES.get('thumbnail', False):
             images = request.FILES.getlist('thumbnail')
-            for image in images:
-                ext = os.path.splitext(str(image))[1]
+            count = len(images)
+            if count > 10 :
+                raise ValidationError('please enter > 10')
+            for cnt in range(int(count)):
+                ext = os.path.splitext(str(images[cnt]))[1]
+                print(ext)
                 valid_extensions = ['.jpg', '.jpeg', '.png']
                 if not ext.lower() in valid_extensions:
                     raise ValidationError('Unsupported file extension`.')
-                else:
-                    img = Images.objects.create(post_id=post.id, thumbnail=request.FILES['thumbnail'])
-                    img.save()
+            for image in images:
+                img = Images.objects.create(post_id=post.id, thumbnail=image)
+                img.save()
+
+
 
         if request.FILES.get('video', False):
             vid = request.FILES['video'].name
