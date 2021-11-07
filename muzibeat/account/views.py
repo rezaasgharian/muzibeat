@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.forms import modelformset_factory
 
 
 # Create your views here.
@@ -57,7 +58,6 @@ def Register(request):
     return render(request, 'account/register.html', context)
 
 
-
 @login_required(login_url='/login/')
 def Logout_view(request):
     logout(request)
@@ -73,7 +73,6 @@ def Profiles(request):
     return render(request, 'account/profile.html', context)
 
 
-
 @login_required(login_url='/login/')
 def Post_users(request):
     if request.method == 'POST':
@@ -85,39 +84,43 @@ def Post_users(request):
                                         description=request.POST['des'])
         post.save()
 
+
         if request.FILES.get('thumbnail', False):
-            image = request.FILES['thumbnail']
-            ext = os.path.splitext(str(image))[1]
-            valid_extensions = ['.jpg', '.jpeg', '.png']
-            if not ext.lower() in valid_extensions:
-                raise ValidationError('Unsupported file extension`.')
-            else:
-                img = Images.objects.create(post_id=post.id, thumbnail=request.FILES['thumbnail'])
-                img.save()
+            images = request.FILES.getlist('thumbnail')
+            for image in images:
+                ext = os.path.splitext(str(image))[1]
+                valid_extensions = ['.jpg', '.jpeg', '.png']
+                if not ext.lower() in valid_extensions:
+                    raise ValidationError('Unsupported file extension`.')
+                else:
+                    img = Images.objects.create(post_id=post.id, thumbnail=request.FILES['thumbnail'])
+                    img.save()
 
         if request.FILES.get('video', False):
-            vid = request.FILES['video']
-            ext = os.path.splitext(str(vid))[1]
+            vid = request.FILES['video'].name
+            ext = os.path.splitext(vid)[1]
             valid_extensions = ['.mp4', '.mkv', '.mov', '.wmv']
-            if not ext.lower() in valid_extensions:
-                raise ValidationError('Unsupported file extension.')
-            else:
-                video = Videos.objects.create(post_id=post.id, file=request.FILES['video'])
+            if ext.lower() in valid_extensions:
+                filename = os.path.splitext(vid)[0] + '.mp4'
+                video = Videos.objects.create(post_id=post.id, file=filename)
                 video.save()
+            else:
+                raise ValidationError('Unsupported file extension.')
 
         if request.FILES.get('voice', False):
-            voc = request.FILES['voice']
-            ext = os.path.splitext(str(voc))[1]
-            valid_extensions = ['.mp3', '.ogg', '.aac']
+            voc = request.FILES['voice'].name
+            ext = os.path.splitext(voc)[1]
+            valid_extensions = ['.mp3', '.aac']
             if not ext.lower() in valid_extensions:
-                raise ValidationError('Unsupported file extension.')
-            else:
-                voice = Voices.objects.create(post_id=post.id, file=request.FILES['voice'])
+                filename = os.path.splitext(voc)[0] + '.ogg'
+                voice = Voices.objects.create(post_id=post.id, file=filename)
                 voice.save()
+            else:
+                raise ValidationError('Unsupported file extension.')
 
         if request.FILES.get('file', False):
-            fil = request.FILES['file']
-            ext = os.path.splitext(str(fil))[1]
+            fil = request.FILES['file'].name
+            ext = os.path.splitext(fil)[1]
             valid_extensions = ['.pdf']
             if not ext.lower() in valid_extensions:
                 raise ValidationError('Unsupported file extension.')
