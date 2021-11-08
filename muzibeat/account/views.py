@@ -87,7 +87,7 @@ def Post_users(request):
         if request.FILES.get('thumbnail', False):
             images = request.FILES.getlist('thumbnail')
             count = len(images)
-            if count > 10 :
+            if count > 10:
                 raise ValidationError('please enter > 10')
             for cnt in range(int(count)):
                 ext = os.path.splitext(str(images[cnt]))[1]
@@ -98,8 +98,6 @@ def Post_users(request):
             for image in images:
                 img = Images.objects.create(post_id=post.id, thumbnail=image)
                 img.save()
-
-
 
         if request.FILES.get('video', False):
             vid = request.FILES['video'].name
@@ -158,7 +156,7 @@ def User_post(request, user_id):
 class edit_post(UpdateView):
     model = Post_user
     template_name = 'account/update_post.html'
-    fields = ['title','description']
+    fields = ['title', 'description']
 
 
 @login_required(login_url='/login/')
