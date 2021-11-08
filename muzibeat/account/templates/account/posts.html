@@ -9,7 +9,7 @@
     <div>
             {% for post in posts %}
                 {% if user == post.user_id%}
-                                <p>{{ post.title }}</p>
+                                <p>{{ post.title }}<a href="{% url 'account:delete_post' post.id %}">delete</a></p>
             <p>{{ post.description}}</p>
             {% for image in images %}
                 {% if image.post_id == post.id %}
@@ -33,7 +33,6 @@
             {% endfor %}
                 {% endif %}
             {% endfor %}
-
 
 <!--        <video width="320" height="240" controls>-->
 <!--            <source src="{{ videos.file.url }}" type="video/mp4">-->
