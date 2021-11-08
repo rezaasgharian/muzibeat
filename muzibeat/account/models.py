@@ -8,6 +8,7 @@ from django.db.models.signals import post_save
 from payments.models import Payment
 from django_countries.fields import CountryField
 from .validators import validate_file
+from django.urls import reverse
 
 
 class MyUserManager(BaseUserManager):
@@ -93,6 +94,9 @@ class Post_user(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('account:login')
 
 
 class Images(models.Model):
