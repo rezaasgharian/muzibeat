@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 import os
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from matplotlib.image import thumbnail
@@ -16,7 +16,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.forms import modelformset_factory
-
+from django.urls import reverse_lazy
 
 # Create your views here.
 def Login(request):
@@ -154,6 +154,11 @@ class edit_post(UpdateView):
     model = Post_user
     template_name = 'account/update_post.html'
     fields = ['title','description']
+
+
+def delete_post(request, post_id):
+    Post_user.objects.filter(id=post_id).delete()
+    return redirect('account:login')
 
 
 @login_required(login_url='/login/')

@@ -12,5 +12,6 @@ urlpatterns = [
     path('create/', Post_users, name="postuser"),
     path('User_post/<int:user_id>', User_post, name="User_post"),
     path('edit/<int:pk>/', edit_post.as_view(), name='edit_post'),
+    path('delete/<int:post_id>/', delete_post, name='delete_post'),
     path('Search_user/<str:username>', Search_user, name="Search_user"),
 ]
