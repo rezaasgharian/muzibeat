@@ -7,6 +7,11 @@
 </head>
 <body>
 <div class="col-md-4">
+    {% for categorys in category %}
+        <li class="nav-item">
+            <a  href="{% url 'administrator:category' categorys.slug %}"> {{ categorys.title }}</a>
+        </li>
+    {% endfor %}
     {% for post in posts %}
         <a href ="{{ post.slug }}">{{ post.title }}</a>
         <h1>{{ post.description|truncatewords:10 }}</h1>

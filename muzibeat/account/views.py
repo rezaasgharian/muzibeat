@@ -18,6 +18,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.forms import modelformset_factory
 from django.urls import reverse_lazy
 
+
 # Create your views here.
 def Login(request):
     if request.user.is_authenticated:
@@ -161,7 +162,7 @@ class edit_post(UpdateView):
 
 def delete_post(request, post_id):
     Post_user.objects.filter(id=post_id).delete()
-    return redirect('account:login')
+    return redirect('account:profile')
 
 
 @login_required(login_url='/login/')

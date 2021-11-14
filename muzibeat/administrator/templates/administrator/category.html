@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>category</title>
+</head>
+<body>
+
+        <!-- Category Start-->
+        <div class="category">
+            <div class="container-fluid">
+                <div class="row">
+                    {% for post in cate.post.all %}
+                        <div class="col-md-3">
+                            <div class="category-item ch-400">
+<!--                                <img src="{{ post.thumbnail.url }}"  alt="image"/>-->
+                                <a class="category-name" href="{% url 'administrator:detail' post.slug %}" >
+                                      <p>{{ post.description|linebreaks }}</p>
+                                </a>
+                            </div>
+                        </div>
+                     {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Category End-->
+
+</body>
+</html>
