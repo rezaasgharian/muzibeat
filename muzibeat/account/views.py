@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 import os
+from django.views.decorators.http import require_POST
 from django.views.generic.edit import UpdateView, DeleteView
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
@@ -50,7 +51,6 @@ def Register(request):
                                             password=data['password_Confirmation'])
             user.save()
             return redirect('account:login')
-
 
     else:
         form = UserCreateForm()
@@ -134,6 +134,8 @@ def Post_users(request):
 @login_required(login_url='/login/')
 def User_post(request, user_id):
     posts = Post_user.objects.filter(user_id=user_id)
+    likes = Post_like.objects.filter(user=user_id)
+    print(likes)
     images = Images.objects.all()
     videos = Videos.objects.all()
     voices = Voices.objects.all()
@@ -144,7 +146,8 @@ def User_post(request, user_id):
         'images': images,
         'videos': videos,
         'voices': voices,
-        'files': files
+        'files': files,
+        'likes':likes
 
     }
     return render(request, 'account/posts.html', context)
@@ -203,3 +206,32 @@ def Change_Password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'account/change.html', {'form': form})
+
+@login_required(login_url='/login/')
+def like(request):
+    if request.method == "POST":
+
+        post_id = request.POST["post_id"]
+        print(post_id)
+        user_like = Post_like.objects.filter(user=request.user.user_id)
+        post_like = Post_like.objects.filter(post=post_id)
+
+        if Post_like.objects.filter(user=request.user.user_id, post=post_id).exists():
+            Post_like.objects.filter(user=request.user.user_id,post=post_id).delete()
+            print("dissliked")
+            return HttpResponse("dissliked")
+        else:
+            newLike = Post_like(user_id=request.user.user_id, post_id=post_id)
+            newLike.save()
+            print("liked")
+            return HttpResponse("liked")
+
+
+    #
+    # post_id = request.POST.get('id')
+    # action = request.POST.get('action')
+    # if post_id and action:
+    #     try:
+    #         post = Post_user.objects.get(id=post_id)
+    #         if action == 'like':
+    #            Post_like.

@@ -94,6 +94,7 @@ class Post_user(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    likes = models.PositiveIntegerField(default=0)
 
     def get_absolute_url(self):
         return reverse('account:login')
@@ -129,3 +130,8 @@ class Files(models.Model):
 
     def __str__(self):
         return str(self.file)
+
+
+class Post_like(models.Model):
+    user = models.ForeignKey(User, related_name='user', blank=True, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post_user, related_name='post', blank=True, on_delete=models.CASCADE)
