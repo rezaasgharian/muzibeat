@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>category user</title>
+</head>
+<body>
+
+        <!-- Category Start-->
+        <div class="category">
+            <div class="container-fluid">
+                <div class="row">
+                    {% for posts in category.posts.all %}
+                        <div class="col-md-3">
+                            <div class="category-item ch-400">
+<!--                                <img src="{{ post.thumbnail.url }}"  alt="image"/>-->
+                                <a class="category-name" href="{% url 'account:User_post' posts.title %}" >
+                                      <p>{{ posts.description|linebreaks }}</p>
+                                </a>
+                            </div>
+                        </div>
+                     {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Category End-->
+
+</body>
+</html>

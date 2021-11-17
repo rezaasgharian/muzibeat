@@ -7,10 +7,16 @@
 <body>
 
     <div>
+
             {% for post in posts %}
                 {% if user == post.user_id%}
                                 <p>{{ post.title }}<a href="{% url 'account:delete_post' post.id %}">delete</a></p>
             <p>{{ post.description}}</p>
+                    {% for category in categories %}
+                        {% if category.post_id == post.id %}
+                            <p>#{{ category.title }}</p>
+                        {% endif %}
+                    {% endfor %}
             {% for image in images %}
                 {% if image.post_id == post.id %}
             <img src="{{ image.thumbnail.url }}" width="200px" height="200px"/>

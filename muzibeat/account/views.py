@@ -85,6 +85,11 @@ def Post_users(request):
                                         description=request.POST['des'])
         post.save()
 
+        if request.POST['category']:
+            print(request.POST['category'])
+            cate = Category_user.objects.create(title=request.POST['category'],post_id = post.id)
+            cate.save()
+
         if request.FILES.get('thumbnail', False):
             images = request.FILES.getlist('thumbnail')
             count = len(images)
@@ -138,12 +143,14 @@ def Post_users(request):
 @login_required(login_url='/login/')
 def User_post(request, user_id):
     posts = Post_user.objects.filter(user_id=user_id)
+    cate = Category_user.objects.all()
     images = Images.objects.all()
     videos = Videos.objects.all()
     voices = Voices.objects.all()
     files = Files.objects.all()
     context = {
         'user': request.user.user_id,
+        'categories': cate,
         'posts': posts,
         'images': images,
         'videos': videos,
@@ -192,6 +199,7 @@ def User_Update(request):
     return render(request, 'account/update.html', context)
 
 
+@login_required(login_url='/login/')
 def Change_Password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -207,3 +215,11 @@ def Change_Password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'account/change.html', {'form': form})
+
+
+@login_required(login_url='/login/')
+def category(requests, title):
+    context = {
+        'category': get_object_or_404(Category_user, title=title, status=True)
+    }
+    return render(requests, "account/category.html", context)

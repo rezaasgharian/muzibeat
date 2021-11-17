@@ -5,7 +5,6 @@ from django.utils import timezone
 import uuid
 from django.contrib.auth.models import User, BaseUserManager, AbstractBaseUser
 from django.db.models.signals import post_save
-from payments.models import Payment
 from django_countries.fields import CountryField
 from .validators import validate_file
 from django.urls import reverse
@@ -87,30 +86,28 @@ def save_profile_user(sender, **kwargs):
 post_save.connect(save_profile_user, sender=User)
 
 
-class Category_user(models.Model):
-    title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True)
-    status = models.BooleanField(default=True, )
-    position = models.IntegerField()
-
-    class Meta:
-        ordering = ['position']
-
-    def __str__(self):
-        return self.title
-
-
 class Post_user(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=40)
     description = models.TextField()
-    category = models.ManyToManyField(Category_user, related_name='post_user')
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
         return reverse('account:login')
+
+
+class Category_user(models.Model):
+    post = models.ForeignKey(Post_user, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=100, unique=True)
+    status = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return self.title
 
 
 class Images(models.Model):
