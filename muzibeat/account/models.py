@@ -135,3 +135,14 @@ class Files(models.Model):
 class Post_like(models.Model):
     user = models.ForeignKey(User, related_name='user', blank=True, on_delete=models.CASCADE)
     post = models.ForeignKey(Post_user, related_name='post', blank=True, on_delete=models.CASCADE)
+
+
+class User_Follow(models.Model):
+    self_id = models.ForeignKey(User, related_name='follower', blank=True, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, related_name='following', blank=True, on_delete=models.CASCADE)
+
+class Post_comment(models.Model):
+    user_id = models.ForeignKey(User, related_name='user', blank=True, on_delete=models.CASCADE)
+    comment_id = models.ForeignKey(Post_comment, related_name='user', blank=True, on_delete=models.CASCADE)
+    post_id = models.ForeignKey(Post_user, related_name='post', blank=True, on_delete=models.CASCADE)
+    description = models.TextField(max_length=300)

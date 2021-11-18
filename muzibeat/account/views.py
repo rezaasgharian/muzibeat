@@ -153,6 +153,11 @@ def User_post(request, user_id):
     return render(request, 'account/posts.html', context)
 
 
+@login_required(login_url='/login/')
+def Post_details(request, post_id):
+    return render(request, 'account/post_details.html')
+
+
 class edit_post(UpdateView):
     model = Post_user
     template_name = 'account/update_post.html'
@@ -207,12 +212,11 @@ def Change_Password(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'account/change.html', {'form': form})
 
+
 @login_required(login_url='/login/')
 def like(request):
     if request.method == "POST":
-
         post_id = request.POST["post_id"]
-        print(post_id)
         user_like = Post_like.objects.filter(user=request.user.user_id)
         post_like = Post_like.objects.filter(post=post_id)
 
@@ -227,11 +231,38 @@ def like(request):
             return HttpResponse("liked")
 
 
-    #
-    # post_id = request.POST.get('id')
-    # action = request.POST.get('action')
-    # if post_id and action:
-    #     try:
-    #         post = Post_user.objects.get(id=post_id)
-    #         if action == 'like':
-    #            Post_like.
+@login_required(login_url='/login/')
+def follow(request):
+    if request.method == "POST":
+        user_id= request.POST['user_id']
+        self_id = request.user.user_id
+        if user_id and self_id:
+            if User_Follow.objects.filter(user_id=user_id, self_id=self_id).exists():
+                User_Follow.objects.filter(user_id=user_id, self_id=self_id).delete()
+                print("unfollowed")
+                return HttpResponse("unfollowed")
+            else:
+                newFollow = User_Follow(user_id=user_id, self_id=self_id)
+                newFollow.save()
+                print("followed")
+                return HttpResponse("followed")
+        else:
+            return HttpResponse("error")
+
+
+@login_required(login_url='/login/')
+def comment(request):
+    if request.method == "POST":
+        user_comment = request.POST['user_id']
+        post_comment = request.POST['post_id']
+        comment_id = request.POST['comment_id']
+        description = request.POST['description']
+        if user_comment and post_comment:
+           if comment_id:
+               save_comment = Post_comment(user_id=user_comment, comment_id=comment_id, post_id=post_comment, description=description)
+               save_comment.save()
+           else:
+               save_comment = Post_comment(user_id=user_comment, comment_id=null, post_id=post_comment, description=description)
+               save_comment.save()
+        else:
+            pass
