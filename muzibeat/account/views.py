@@ -155,7 +155,11 @@ def User_post(request, user_id):
 
 @login_required(login_url='/login/')
 def Post_details(request, post_id):
-    return render(request, 'account/post_details.html')
+    context = {
+        'post':  get_object_or_404(Post_user, id=post_id),
+        'comments':  Post_comment.objects.filter(post_id_id=post_id),
+    }
+    return render(request, 'account/post_details.html', context)
 
 
 class edit_post(UpdateView):
@@ -253,16 +257,22 @@ def follow(request):
 @login_required(login_url='/login/')
 def comment(request):
     if request.method == "POST":
-        user_comment = request.POST['user_id']
         post_comment = request.POST['post_id']
-        comment_id = request.POST['comment_id']
+        post = get_object_or_404(Post_user,id = post_comment)
         description = request.POST['description']
-        if user_comment and post_comment:
-           if comment_id:
-               save_comment = Post_comment(user_id=user_comment, comment_id=comment_id, post_id=post_comment, description=description)
-               save_comment.save()
-           else:
-               save_comment = Post_comment(user_id=user_comment, comment_id=null, post_id=post_comment, description=description)
-               save_comment.save()
+        print("income")
+        comment_id = None
+        if request.user.user_id and post_comment:
+            if comment_id:
+                save_comment = Post_comment(user_id=request.user, comment_id=comment_id, post_id=post, description=description)
+                save_comment.save()
+                return HttpResponse("success")
+            else:
+                save_comment = Post_comment(user_id=request.user, comment_id=comment_id, post_id=post, description=description)
+                save_comment.save()
+                print("saved")
+                return HttpResponse("success")
         else:
-            pass
+            return HttpResponse("error")
+    else:
+        return HttpResponse("error")

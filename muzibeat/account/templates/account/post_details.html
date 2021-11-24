@@ -2,10 +2,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
+        {{ post.title }}
+        {{ post.description }}
+
+<form>
+        <textarea cols="5" rows="5" name="comment" id="comment"></textarea>
+        <button type="button" id="send" data-id="{{post.id}}" data-user="{{request.user.user_id}}">add comment</button>
+</form>
+
+ <script>
+            let add = document.getElementById("send");
+            add.addEventListener("click",function(e){
+                console.log("clicked")
+                let post_id = add.getAttribute("data-id");
+                let user_id = add.getAttribute("data-user");
+                let comment = document.getElementById("comment").value;
+                let body = {
+                    post_id : post_id,
+                    user_id : user_id,
+                    description:comment,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                e.preventDefault();
+                $.post("{% url 'account:comment' %}",body , function(response){
+                if (response == "success"){
+                    alert('comment added')
+                }else{
+                    // alert("dissliked")
+                   alert('error in adding comment')
+                }
+});
+            })
+
+
+
+        </script>
 
 </body>
 </html>
