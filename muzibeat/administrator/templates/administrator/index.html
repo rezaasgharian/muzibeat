@@ -1,17 +1,340 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Posts</title>
 
+<html>
+<head>
+    <title>
+        muzibeat|main page
+    </title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+<link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+
+/>
+<link rel="stylesheet" href="assets/plugins/OwlCarousel/dist/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="assets/plugins/OwlCarousel/dist/assets/owl.theme.default.min.css">
+<link rel="stylesheet" href="assets/css/styles.css"/>
+<link rel="stylesheet" href="assets/css/audioplayer.css">
+
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+
+        crossorigin="anonymous">
+
+</script> -->
+
+
 <body>
-<div class="col-md-4">
-    {% for post in posts %}
-        <a href ="{{ post.slug }}">{{ post.title }}</a>
-        <h1>{{ post.description|truncatewords:10 }}</h1>
-    {% endfor %}
-</div>
+<header>
+    <div class="container">
+        <nav>
+            <div>
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+            </div>
+            <div>
+                <a href="about-us.html">about us</a>
+                <a href="contact-us.html">contact us</a>
+                <a href="notes.html">notes</a>
+                <a href="texts.html">texts</a>
+                <a href="songs.html">songs</a>
+                <a href="blog.html">blog</a>
+                <a href="index.html">Home</a>
+            </div>
+
+        </nav>
+    </div>
+</header>
+<section id="site-description">
+    <div class="col-md-6">
+
+        <h1 class="text-center">
+            muzibeat<br> is the best website for<br> trading notes
+        </h1>
+    </div>
+    <div class="col-md-6">
+
+        <img src="assets/images/pic.png" alt="">
+    </div>
+</section>
+    
+<section id="users">
+    <div class="container text-center">
+
+        <h1 style="margin:50px 0">
+            The most prolific
+
+        </h1>
+        <div class="row owl-carousel">
+
+            <div class="d-flex flex-column justify-content-center align-content-center align-items-center">
+                <div class="user-image">
+                    <img src="assets/images/user.png" alt="" style="width: 100px;height: 100px;">
+                </div>
+                <div class="user-header">
+                    <h6>who is bethoven</h6>
+                </div>
+            </div>
+            <div class="d-flex flex-column justify-content-center align-content-center align-items-center">
+                <div class="user-image">
+                    <img src="assets/images/user.png" alt="" style="width: 100px;height: 100px;">
+                </div>
+                <div class="user-header">
+                    <h6>who is bethoven</h6>
+                </div>
+            </div>
+            <div class="d-flex flex-column justify-content-center align-content-center align-items-center">
+                <div class="user-image">
+                    <img src="assets/images/user.png" alt="" style="width: 100px;height: 100px;">
+                </div>
+                <div class="user-header">
+                    <h6>who is bethoven</h6>
+                </div>
+            </div>
+            <div class="d-flex flex-column justify-content-center align-content-center align-items-center">
+                <div class="user-image">
+                    <img src="assets/images/user.png" alt="" style="width: 100px;height: 100px;">
+                </div>
+                <div class="user-header">
+                    <h6>who is bethoven</h6>
+                </div>
+            </div>
+            <div class="d-flex flex-column justify-content-center align-content-center align-items-center">
+                <div class="user-image">
+                    <img src="assets/images/user.png" alt="" style="width: 100px;height: 100px;">
+                </div>
+                <div class="user-header">
+                    <h6>who is bethoven</h6>
+                </div>
+            </div>
+            
+            
+        </div>
+
+    </div>
+</section>
+<section id="notes">
+    <div class="container text-center">
+
+        <h1 style="margin:50px 0;">
+            The best notes
+
+        </h1>
+        <div class="row owl-carousel">
+
+            <div style="padding:10px;background-color:#fff;border-radius: 5px;margin:10px">
+                <div class="note-source">
+                    <embed type="application/pdf" src="uploads/notes/note.pdf">
+                </div>
+                <div class="note-header mt-5">
+                    <h3>who is bethoven</h3>
+                </div>
+                <div class="note-writer">
+                    <b class="muted">who is bethoven</b>
+                </div>
+            </div>
+            <div style="padding:10px;background-color:#fff;border-radius: 5px;margin:10px">
+                <div class="note-source">
+                    <embed type="application/pdf" src="uploads/notes/note.pdf">
+                </div>
+                <div class="note-header mt-5">
+                    <h3>who is bethoven</h3>
+                </div>
+                <div class="note-writer">
+                    <b class="muted">who is bethoven</b>
+                </div>
+            </div>
+            <div style="padding:10px;background-color:#fff;border-radius: 5px;margin:10px">
+                <div class="note-source">
+                    <embed type="application/pdf" src="uploads/notes/note.pdf">
+                </div>
+                <div class="note-header mt-5">
+                    <h3>who is bethoven</h3>
+                </div>
+                <div class="note-writer">
+                    <b class="muted">who is bethoven</b>
+                </div>
+            </div>
+            <div style="padding:10px;background-color:#fff;border-radius: 5px;margin:10px">
+                <div class="note-source">
+                    <embed type="application/pdf" src="uploads/notes/note.pdf">
+                </div>
+                <div class="note-header mt-5">
+                    <h3>who is bethoven</h3>
+                </div>
+                <div class="note-writer">
+                    <b class="muted">who is bethoven</b>
+                </div>
+            </div>
+            
+            
+           
+
+        </div>
+
+    </div>
+</section>
+<section id="texts">
+    <div class="container text-center">
+
+        <h1 style="margin:50px 0;">
+            The best texts
+
+        </h1>
+        <div class="row owl-carousel">
+
+            <div style="padding:10px;background-color:#fff;border-radius: 5px;margin:10px">
+                <div class="note-source">
+                    <embed type="application/pdf" src="uploads/notes/note.pdf">
+                </div>
+                <div class="note-header mt-5">
+                    <h3>who is bethoven</h3>
+                </div>
+                <div class="note-writer">
+                    <b class="muted">who is bethoven</b>
+                </div>
+            </div>
+            <div style="padding:10px;background-color:#fff;border-radius: 5px;margin:10px">
+                <div class="note-source">
+                    <embed type="application/pdf" src="uploads/notes/note.pdf">
+                </div>
+                <div class="note-header mt-5">
+                    <h3>who is bethoven</h3>
+                </div>
+                <div class="note-writer">
+                    <b class="muted">who is bethoven</b>
+                </div>
+            </div>
+            <div style="padding:10px;background-color:#fff;border-radius: 5px;margin:10px">
+                <div class="note-source">
+                    <embed type="application/pdf" src="uploads/notes/note.pdf">
+                </div>
+                <div class="note-header mt-5">
+                    <h3>who is bethoven</h3>
+                </div>
+                <div class="note-writer">
+                    <b class="muted">who is bethoven</b>
+                </div>
+            </div>
+            <div style="padding:10px;background-color:#fff;border-radius: 5px;margin:10px">
+                <div class="note-source">
+                    <embed type="application/pdf" src="uploads/notes/note.pdf">
+                </div>
+                <div class="note-header mt-5">
+                    <h3>who is bethoven</h3>
+                </div>
+                <div class="note-writer">
+                    <b class="muted">who is bethoven</b>
+                </div>
+            </div>
+            
+            
+           
+
+        </div>
+
+    </div>
+</section>
+<section id="songs">
+    <div class="container text-center">
+
+        <h1 style="margin: 50px 0;">
+            The best songs
+
+        </h1>
+
+            <div class="col-md-12">
+                <div class="song-header">
+                    <h6>who is bethoven</h6>
+                </div>
+                <div class="song-source">
+                    <audio controls>
+                        <source src="uploads/songs/yas.mp3"/>
+
+                    </audio>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="song-header">
+                    <h6>who is bethoven</h6>
+                </div>
+                <div class="song-source">
+                    <audio controls>
+                        <source src="uploads/songs/yas.mp3"/>
+
+                    </audio>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="song-header">
+                    <h6>who is bethoven</h6>
+                </div>
+                <div class="song-source">
+                    <audio controls>
+                        <source src="uploads/songs/yas.mp3"/>
+
+                    </audio>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="song-header">
+                    <h6>who is bethoven</h6>
+                </div>
+                <div class="song-source">
+                    <audio controls>
+                        <source src="uploads/songs/yas.mp3"/>
+
+                    </audio>
+                </div>
+            </div>
+
+
+
+    </div>
+</section>
+<footer>
+
+</footer>
+<script src="assets/js/wow.min.js"></script>
+<script src="assets/plugins/OwlCarousel/dist/owl.carousel.min.js"></script>
+<script src="assets/js/audioplayer.js"></script>
 
 </body>
+
+<script>
+$(document).ready(function(){
+  $(".owl-carousel").owlCarousel();
+  $('audio').audioPlayer({
+
+  classPrefix:'audioplayer',
+
+  strPlay:'',
+
+  strPause:'',
+
+  strVolume:''
+
+});
+
+
+});
+
+
+</script>
+
+
+
+
+
+
+
 </html>

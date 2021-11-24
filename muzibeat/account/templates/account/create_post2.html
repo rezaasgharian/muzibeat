@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>
+            <div>
+        <lable>
+            title
+        </lable>
+                <input type="text" maxlength="15" name="title">
+            </div>
+        </p>
+        <div>
+            <lable>
+            descriptions
+        </lable>
+            <textarea name="des">
+                pleas enter a descriptions
+            </textarea>
+        </div>
+        <div>
+            <label>
+<!--                {{ formset.management_form }}-->
+<!--                {% for formm in formset %}-->
+<!--                    {{form}}-->
+<!--                {% endfor %}-->
+                Image
+            <input type="file" name="thumbnail" multiple>
+                </label>
+            <label>
+                Video
+            <input type="file" name="video" multiple>
+                </label>
+            <label>
+                Voice
+            <input type="file" name="voice" multiple>
+                </label>
+            <label>
+                File
+            <input type="file" name="file" multiple>
+                </label>
+        </div>
+        <input type="submit" name="submit">
+
+    </form>
+
+</body>
+</html>

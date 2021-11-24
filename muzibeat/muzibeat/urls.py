@@ -25,6 +25,11 @@ urlpatterns = [
     path('', include('administrator.urls')),
     path('', include('payments.urls')),
     path('', include('account.urls')),
+    # path('about-us',aboutUs,'about_us'),
+    # path('contact-us',contactUs,'contact_us'),
+    # path('notes',notes,'notes'),
+    # path('sheets',sheets,'sheets'),
+    # path('songs',songs,'songs'),
 ]
 
 if settings.DEBUG:
