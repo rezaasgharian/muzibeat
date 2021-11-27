@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title> Profile </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
 
@@ -27,6 +29,7 @@
 
 </table>
         <a href="{% url 'account:update' %}"> Update </a>
+        <a href="{% url 'account:follow' %}" id="follow" data-id="{{profile.user.id}}"> follow </a>
     <br>
         <a href="{% url 'account:change' %}"> Change Password </a>
     <br>
@@ -36,5 +39,27 @@
     <br>
 
 
+<script>
+            let follow = document.getElementById("follow");
+            follow.addEventListener("click",function(e){
+                let user_id = follow.getAttribute("data-id");
+                let body = {
+                    user_id : user_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                e.preventDefault();
+                $.post("{% url 'account:follow' %}",body , function(response){
+                if (response == "followed"){
+                    document.getElementById("follow").innerHTML = "followed"
+                }else{
+                    // alert("dissliked")
+                    document.getElementById("follow").innerHTML = "unfollow"
+                }
+});
+            })
+
+
+
+</script>
 </body>
 </html>

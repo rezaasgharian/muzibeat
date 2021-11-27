@@ -1,8 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
 
@@ -39,7 +42,24 @@
             {% endfor %}
                 {% endif %}
             {% endfor %}
+        <br>
+        {% for post in posts %}
+        <div id="post{{post.id}}">{{ post }}
+            {% if likes.count %}
+            {% for like in likes %}
+                {% if like.post_id == post.id %}
+                    <img width="48" height="48" src="{% static 'account/images/like.png' %}" id="like" data-id="{{post.id}}">
+                {% else %}
+                    <img width="48" height="48" src="{% static 'account/images/dislike.png' %}" id="like" data-id="{{post.id}}">
 
+            {% endif %}
+            {% endfor %}
+            {% else %}
+            <img width="48" height="48" src="{% static 'account/images/dislike.png' %}" id="like" data-id="{{post.id}}">
+            {% endif %}
+
+        {% endfor %}
+        </div>
 <!--        <video width="320" height="240" controls>-->
 <!--            <source src="{{ videos.file.url }}" type="video/mp4">-->
 <!--        </video>-->
@@ -47,6 +67,28 @@
 <!--            <source src="{{ voices.file.url }}" type="voice/mp3">-->
 <!--        </audio>-->
     </div>
+        <script>
+            let like = document.getElementById("like");
+            like.addEventListener("click",function(e){
+                console.log("clicked")
+                let post_id = like.getAttribute("data-id");
+                let body = {
+                    post_id : post_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                e.preventDefault();
+                $.post("{% url 'account:like_post' %}",body , function(response){
+                if (response == "liked"){
+                    document.getElementById("like").src = "{% static 'account/images/like.png' %}"
+                }else{
+                    // alert("dissliked")
+                    document.getElementById("like").src = "{% static 'account/images/dislike.png' %}"
+                }
+});
+            })
 
+
+
+        </script>
 </body>
 </html>
