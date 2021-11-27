@@ -144,5 +144,6 @@ class Files(models.Model):
 
 class Report(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE())
     reporting = models.IntegerField(default=False)
     message = models.TextField()
