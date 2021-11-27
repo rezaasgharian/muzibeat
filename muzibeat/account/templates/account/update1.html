@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+</head>
+<body>
+    <h1> Update Page </h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <p>username:</p>
+            {{ user_form.username }}
+        </div>
+        <br>
+        <div>
+            <p>email</p>
+            {{ user_form.email }}
+        </div>
+        <br>
+        <div>
+            <input type="file" name="image" >
+        </div>
+        <br>
+        <div>
+                {{ profile_form.nationality }}
+        </div>
+        <br>
+        <div>
+            {{ profile_form.expert }}
+        </div>
+        <br>
+        <div>
+           {{ profile_form.status }}
+        </div>
+        <br>
+        <div>
+            {{ profile_form.desc}}
+        </div>
+        <input type="submit">
+    </form>
+</body>
+</html>

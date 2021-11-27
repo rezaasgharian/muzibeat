@@ -3,6 +3,7 @@ from django.utils import timezone
 
 
 # Create your models here.
+
 class Payment(models.Model):
     status_choices = (
         ('d', 'Done'),

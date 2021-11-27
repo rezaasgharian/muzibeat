@@ -76,7 +76,6 @@ class Profile(models.Model):
     expert = models.CharField(max_length=10, choices=EXPERT_CHOICES, default=3)
     nationality = CountryField()
 
-
 def save_profile_user(sender, **kwargs):
     if kwargs['created']:
         profile_user = Profile(user=kwargs['instance'])

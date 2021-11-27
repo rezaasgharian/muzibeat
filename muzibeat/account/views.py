@@ -19,6 +19,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.forms import modelformset_factory
 from django.urls import reverse_lazy
 
+
 # Create your views here.
 def Login(request):
     if request.user.is_authenticated:
@@ -66,9 +67,11 @@ def Logout_view(request):
 
 @login_required(login_url='/login/')
 def Profiles(request):
+    posts = Post_user.objects.filter(user_id = request.user.user_id)
     context = {
         'profile': Profile.objects.get(user_id=request.user.user_id),
-        # 'post' : Post_user.objects.filter(user_id=user_id),
+        'posts':posts,
+        'user':request.user.user_id
     }
     return render(request, 'account/profile.html', context)
 

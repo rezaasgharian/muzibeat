@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Profile </title>
+</head>
+<body>
+
+    {% csrf_token %}
+    <h1> Profile </h1>
+<table>
+
+    <tr>
+        <th> {{ profile.user.username }} </th>
+    </tr>
+    <tr>
+        <th> {{ profile.user.email }} </th>
+    </tr>
+    <tr>
+        {{ profile.desc }}
+    </tr>
+        {{profile.status}}
+    <tr>
+        <img src="/media/{{ profile.image }}" width="200" height="200" style="border-radius: 50%"/>
+    </tr>
+
+</table>
+        <a href="{% url 'account:update' %}"> Update </a>
+    <br>
+        <a href="{% url 'account:change' %}"> Change Password </a>
+    <br>
+        <a href="{% url 'account:postuser' %}"> Create post </a>
+    <br>
+            <a href="{% url 'account:User_post'  user.user_id  %}">Post</a>
+
+</body>
+</html>
