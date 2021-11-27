@@ -87,7 +87,7 @@ def Post_users(request):
 
         if request.POST['category']:
             print(request.POST['category'])
-            cate = Category_user.objects.create(title=request.POST['category'],post_id = post.id)
+            cate = Category_user.objects.create(title=request.POST['category'], post_id=post.id)
             cate.save()
 
         if request.FILES.get('thumbnail', False):
@@ -218,8 +218,22 @@ def Change_Password(request):
 
 
 @login_required(login_url='/login/')
-def category(requests, title):
+def category(request, title):
     context = {
         'category': get_object_or_404(Category_user, title=title, status=True)
     }
-    return render(requests, "account/category.html", context)
+    return render(request, "account/category.html", context)
+
+
+def report(request):
+    if request.method == "POST":
+        user_id = request.POST['user_id']
+        post_id = request.POST['post_id']
+        if user_id and post_id:
+            if Report.objects.filter(user_id=user_id).exists():
+                return HttpResponse("UnReports")
+            else:
+                reports = Report(post_id=post_id)
+                reports.save()
+                return HttpResponse("Report")
+

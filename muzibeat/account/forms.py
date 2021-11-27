@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Profile ,Images
+from .models import *
 from django.core.mail import send_mail
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
@@ -49,9 +49,3 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['image', 'status', 'desc', 'nationality', 'expert']
 
 
-# class ImageForm(forms.ModelForm):
-#     thumbnail = forms.ImageField()
-#
-#     class Meta:
-#         model = Images
-#         fields = ['thumbnail']

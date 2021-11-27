@@ -140,3 +140,9 @@ class Files(models.Model):
 
     def __str__(self):
         return str(self.file)
+
+
+class Report(models.Model):
+    post = models.ForeignKey(Post_user, on_delete=models.CASCADE)
+    reporting = models.IntegerField(default=False)
+    message = models.TextField()
