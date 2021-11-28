@@ -1,44 +1,86 @@
-<!DOCTYPE html>
+{% include 'account/partials/header.html' %}
+{% load static %}
+{% load countries%}
+ <div class="container" >
+  <div class="row">
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Update</title>
-</head>
-<body>
-    <h1> Update Page </h1>
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div>
-            <p>username:</p>
-            {{ user_form.username }}
+   <div class="col-md-12" style="margin-top:200px">
+    <div class="user-posts">
+      <article>
+       <h1>
+        update profile
+       </h1>
+       <hr>
+       <form action="" method="post">
+         {% csrf_token %}
+        <div class="form-group col-md-4 mt-3">
+          <label for="username">username</label>
+          <input type="text" class="form-control" id="username" name="username">
         </div>
-        <br>
-        <div>
-            <p>email</p>
-            {{ user_form.email }}
+        <div class="form-group col-md-4 mt-3">
+          <label for="email">email</label>
+          <input type="email" class="form-control" id="email" name="email">
         </div>
-        <br>
-        <div>
-            <input type="file" name="image" >
+        <div class="form-group col-md-4 mt-3">
+          <label for="avatar">avatar</label>
+          <input type="file" class="form-control" name="avatar">
         </div>
-        <br>
-        <div>
-            {{ profile_form.nationality }}
+        <div class="form-group col-md-4 mt-3">
+          <label for="country">country</label>
+          {% get_countries as countries %}
+            <select name="nationality" class="form-control" id="">
+              {% for country in countries %}
+              <option value="{{ country.code }}">{{country.name}}</option>
+              {% endfor %}
+            </select>
         </div>
-        <br>
-        <div>
-            {{ profile_form.expert }}
+        <div class="form-group col-md-4 mt-3">
+          <label for="role">role</label>
+            <select name="expert" class="form-control" id="">
+              <option value="">singer</option>
+            </select>
         </div>
-        <br>
-        <div>
-           {{ profile_form.status }}
+        <div class="form-group col-md-4 mt-3">
+          <label for="status">emotion</label>
+            <select name="status" class="form-control" id="">
+              <option value="h">happy</option>
+              <option value="s">sad</option>
+              <option value="a">available</option>
+              <option value="b">busy</option>
+              <option value=",">motivate</option>
+              <option value="l">love</option>
+            </select>
         </div>
-        <br>
-        <div>
-            {{ profile_form.desc}}
+        <div class="form-group col-md-4 mt-3">
+          <label for="desc">bio</label>
+            <textarea class="form-control" name="desc" rows="5"></textarea>
         </div>
-        <input type="submit">
-    </form>
+        <button type="submit" class="btn btn-primary mt-3">update</button>
+      </form>
+
+      </article>
+    </div>
+
+   </div>
+  </div>
+ </div>
+
+
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+<script>
+  $('audio').audioPlayer({
+
+classPrefix:'audioplayer',
+
+strPlay:'',
+
+strPause:'',
+
+strVolume:''
+
+});
+</script>
 </body>
 </html>

@@ -85,6 +85,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('file', models.FileField(blank=True, null=True, upload_to='Files/')),
+<<<<<<< HEAD
             name='Post_like',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -117,5 +118,9 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['id'],
             },
+=======
+                ('post', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='account.post_user')),
+            ],
+>>>>>>> db5ace914d1a533e157a8528d3934e5e6d4a3c07
         ),
     ]
