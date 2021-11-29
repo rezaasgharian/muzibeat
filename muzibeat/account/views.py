@@ -306,9 +306,13 @@ def report(request):
         post_id = request.POST['post_id']
         if user_id and post_id:
             if Report.objects.filter(user_id=user_id,post_id=post_id).exists():
-                return HttpResponse("UnReports")
+                return HttpResponse("error")
             else:
                 reports = Report(user_id=user_id,post_id=post_id)
                 reports.save()
-                return HttpResponse("Report")
+                return HttpResponse("success")
 
+        else:
+            return HttpResponse("error")
+    else:
+        return HttpResponse("error")

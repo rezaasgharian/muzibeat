@@ -12,6 +12,8 @@
 <form>
         <textarea cols="5" rows="5" name="comment" id="comment"></textarea>
         <button type="button" id="send" data-id="{{post.id}}" data-user="{{request.user.user_id}}">add comment</button>
+        <button type="button" id="report" data-id="{{post.id}}" data-user="{{request.user.user_id}}">Report</button>
+
 </form>
 
  <script>
@@ -34,6 +36,26 @@
                 }else{
                     // alert("dissliked")
                    alert('error in adding comment')
+                }
+});
+            })
+            let report = document.getElementById("report");
+            report.addEventListener("click",function(e){
+                console.log("clicked")
+                let post_id = report.getAttribute("data-id");
+                let user_id = report.getAttribute("data-user");
+                let body = {
+                    post_id : post_id,
+                    user_id : user_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                e.preventDefault();
+                $.post("{% url 'account:report' %}",body , function(response){
+                if (response == "success"){
+                    alert('reported')
+                }else{
+                    // alert("dissliked")
+                   alert('error')
                 }
 });
             })

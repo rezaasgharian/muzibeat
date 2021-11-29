@@ -18,5 +18,6 @@ urlpatterns = [
     path('like', like, name="like_post"),
     path('follow', follow, name="follow"),
     path('comment', comment, name="comment"),
+    path('report', report, name="report"),
     path('category_user/<str:title>', Category_user, name="category_user"),
 ]

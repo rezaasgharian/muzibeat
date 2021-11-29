@@ -157,7 +157,6 @@ class Post_comment(models.Model):
     description = models.TextField(max_length=300)
 
 class Report(models.Model):
-    post = models.ForeignKey(Post_user, on_delete=models.CASCADE)
-    user = models.ForeignKey(User,on_delete=models.CASCADE())
-    reporting = models.IntegerField(default=False)
+    post = models.ForeignKey(Post_user,related_name='postid',blank=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,related_name='userid',blank=True,on_delete=models.CASCADE)
     message = models.TextField()
