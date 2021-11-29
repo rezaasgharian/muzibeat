@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'administrator',
     'account',
     'web',
+    'channels',
+    'chat',
+
 
 ]
 
@@ -79,7 +82,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'muzibeat.wsgi.application'
 AUTH_USER_MODEL = 'account.User'
 
-
+ASGI_APPLICATION = "muzibeat.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -97,7 +100,19 @@ DATABASES = {
     }
 }
 
-
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("127.0.0.1", 6379)],
+#         },
+#     },
+# }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

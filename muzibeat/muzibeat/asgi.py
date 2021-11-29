@@ -8,9 +8,24 @@ https://docs.djangoproject.com/en/3.2/howto/deployment/asgi/
 """
 
 import os
+import django
 
+from channels.http import AsgiHandler
+from channels.routing import ProtocolTypeRouter
 from django.core.asgi import get_asgi_application
+import chat.routing
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'muzibeat.settings')
-
-application = get_asgi_application()
+django.setup()
+# application = get_asgi_application()
+application = ProtocolTypeRouter({
+    "http": AsgiHandler(),
+    "websocket": AuthMiddlewareStack(
+        URLRouter(
+            chat.routing.websocket_urlpatterns
+        )
+    ),
+    # We will add WebSocket protocol later, but for now it's just HTTP.
+})

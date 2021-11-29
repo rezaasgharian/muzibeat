@@ -302,13 +302,13 @@ def category(request, title):
 
 def report(request):
     if request.method == "POST":
-        user_id = request.POST['user_id']
+        user_id = request.user.user_id
         post_id = request.POST['post_id']
         if user_id and post_id:
             if Report.objects.filter(user_id=user_id,post_id=post_id).exists():
-                return HttpResponse("UnReports")
+                return HttpResponse("error")
             else:
                 reports = Report(user_id=user_id,post_id=post_id)
                 reports.save()
-                return HttpResponse("Report")
+                return HttpResponse("success")
 

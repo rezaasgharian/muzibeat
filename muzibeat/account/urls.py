@@ -16,6 +16,7 @@ urlpatterns = [
     path('delete/<int:post_id>/', delete_post, name='delete_post'),
     path('Search_user/<str:username>', Search_user, name="Search_user"),
     path('like', like, name="like_post"),
+    path('report', report, name="report"),
     path('follow', follow, name="follow"),
     path('comment', comment, name="comment"),
     path('category_user/<str:title>', Category_user, name="category_user"),

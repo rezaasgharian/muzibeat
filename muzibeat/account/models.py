@@ -76,6 +76,7 @@ class Profile(models.Model):
     expert = models.CharField(max_length=10, choices=EXPERT_CHOICES, default=3)
     nationality = CountryField()
 
+
 def save_profile_user(sender, **kwargs):
     if kwargs['created']:
         profile_user = Profile(user=kwargs['instance'])
@@ -153,12 +154,13 @@ class User_Follow(models.Model):
 
 class Post_comment(models.Model):
     user_id = models.ForeignKey(User, related_name='users', blank=True, on_delete=models.CASCADE)
-    comment_id = models.ForeignKey("self", related_name='comment', blank=True, on_delete=models.CASCADE,null=True)
+    comment_id = models.ForeignKey("self", related_name='comment', blank=True, on_delete=models.CASCADE, null=True)
     post_id = models.ForeignKey(Post_user, related_name='post', blank=True, on_delete=models.CASCADE)
     description = models.TextField(max_length=300)
 
+
 class Report(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE)
-    user = models.ForeignKey(User,on_delete=models.CASCADE())
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     reporting = models.IntegerField(default=False)
     message = models.TextField()
