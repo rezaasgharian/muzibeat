@@ -1,4 +1,7 @@
 from django.shortcuts import render
+import json
+from django.conf import settings
+from .models import *
 
 
 def index(request):
