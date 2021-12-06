@@ -59,6 +59,7 @@
         {{ profile.desc }}
      </p>
       <a href="#" class="btn btn-success form-control">follow <span class="m-2"></span></a>
+      <a href="#" class="btn btn-success form-control">block <span class="m-2"></span></a>
       <a href="#" class="btn btn-warning form-control mt-2">like<i class="m-2 far fa-thumbs-up"></i>
       <a href="{% url 'account:update' %}" class="btn btn-dark form-control mt-2">update profile<i class="m-2 fa fa-edit"></i>
       <a href="{% url 'account:change' %}" class="btn btn-dark form-control mt-2">change password<i class="m-2 fas fa-user-lock"></i>
@@ -159,6 +160,24 @@
                 }
 });
             })
+
+      let block = document.getElementById("block");
+            block.addEventListener("click",function(e){
+                let user_id = block.getAttribute("data-id");
+                let body = {
+                    user_id : user_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                e.preventDefault();
+                $.post("{% url 'account:block' %}",body , function(response){
+                if (response == "blocked"){
+                    document.getElementById("block").innerHTML = "blocked"
+                }else{
+                    document.getElementById("block").innerHTML = "unblocked"
+                }
+});
+            })
+
 
   $('audio').audioPlayer({
 

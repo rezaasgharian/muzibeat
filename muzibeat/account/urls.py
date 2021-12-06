@@ -19,5 +19,6 @@ urlpatterns = [
     path('report', report, name="report"),
     path('follow', follow, name="follow"),
     path('comment', comment, name="comment"),
+    path('block', block, name="block"),
     path('category_user/<str:title>', Category_user, name="category_user"),
 ]
