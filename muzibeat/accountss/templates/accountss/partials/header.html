@@ -1,0 +1,40 @@
+{% load static %}
+<html>
+<head>
+    <title>
+        muzibeat|main page
+    </title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+
+/>
+<link rel="stylesheet" href="{% static 'accountss/css/styles.css' %}"/>
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <div>
+                <a href="{% url 'accountss:login' %}">Login</a>
+                <a href="{% url 'accountss:register' %}">Register</a>
+            </div>
+            <div>
+                <a href="about-us.html">about us</a>
+                <a href="contact-us.html">contact us</a>
+                <a href="notes.html">notes</a>
+                <a href="texts.html">texts</a>
+                <a href="songs.html">songs</a>
+                <a href="index.html">Home</a>
+            </div>
+
+        </nav>    </div>
+</header>
