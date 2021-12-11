@@ -19,7 +19,7 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
 
     />
-    <link rel="stylesheet" href="{% static 'account/css/styles.css' %}"/>
+    <link rel="stylesheet" href="{% static 'accountss/css/styles.css' %}"/>
     <link rel="stylesheet" href="assets/css/audioplayer.css">
     <link href="assets/plugins/font-awesome/css/all.css" rel="stylesheet"> <!--load all styles -->
     <link href="assets/plugins/font-awesome/css/brands.css" rel="stylesheet"> <!--load all styles -->
@@ -169,7 +169,7 @@
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 }
                 e.preventDefault();
-                $.post("{% url 'account:block' %}",body , function(response){
+                $.post("{% url 'accountss:block' %}",body , function(response){
                 if (response == "blocked"){
                     document.getElementById("block").innerHTML = "blocked"
                 }else{
