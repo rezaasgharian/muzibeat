@@ -164,3 +164,8 @@ class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     reporting = models.IntegerField(default=False)
     message = models.TextField()
+
+
+class User_Block(models.Model):
+    self_id = models.ForeignKey(User, related_name='block', blank=True, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, related_name='unblock', blank=True, on_delete=models.CASCADE)

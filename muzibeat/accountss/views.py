@@ -269,6 +269,25 @@ def follow(request):
 
 
 @login_required(login_url='/login/')
+def block(request):
+    if request.method == "POST":
+        user_id = request.POST['user_id']
+        self_id = request.user.user_id
+        if user_id and self_id:
+            if User_Block.objects.filter(user_id=user_id, self_id=self_id).exists():
+                User_Block.objects.filter(user_id=user_id, self_id=self_id).delete()
+                print("unblocked")
+                return HttpResponse("unblocked")
+            else:
+                newBlock = User_Block(user_id=user_id, self_id=self_id)
+                newBlock.save()
+                print("blocked")
+                return HttpResponse("blocked")
+        else:
+            return HttpResponse("error")
+
+
+@login_required(login_url='/login/')
 def comment(request):
     if request.method == "POST":
         post_comment = request.POST['post_id']
@@ -311,4 +330,3 @@ def report(request):
                 reports = Report(user_id=user_id,post_id=post_id)
                 reports.save()
                 return HttpResponse("success")
-
