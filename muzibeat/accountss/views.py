@@ -13,7 +13,6 @@ from shortuuidfield import ShortUUIDField
 from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.forms import modelformset_factory
@@ -39,6 +38,7 @@ def Login(request):
             return render(request, "accountss/login.html", context)
     else:
         return render(request, 'accountss/login.html', {})
+
 
 
 def Register(request):

@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('payments.urls')),
     path('', include('accountss.urls')),
     path('', include('web.urls')),
+    path('', include('player.urls')),
     path('chat/', include('chat.api.urls', namespace='chat')),
     path('api-auth/', include('rest_framework.urls')),
     path('rest-auth/', include('rest_auth.urls')),
