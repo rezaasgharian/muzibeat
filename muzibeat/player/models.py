@@ -22,5 +22,22 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     )
 
 
+class Artist(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False)
+    thumbnail = models.ImageField(upload_to='images/', blank=False)
 
 
+class Album(models.Model):
+    title = models.CharField(max_length=50, null=False, blank=False)
+    description = models.CharField(max_length=250, null=True, blank=True)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    thumbnail = models.ImageField(upload_to='images/', blank=False)
+
+
+class Song(models.Model):
+    title = models.CharField(max_length=50, null=False, blank=False)
+    description = models.CharField(max_length=250, null=True, blank=True)
+    artist = models.ForeignKey(Artist, null=False, blank=False, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, null=True, blank=True, on_delete=models.CASCADE)
+    song = models.FileField(upload_to='musics/', null=False, blank=False)
+    thumbnail = models.ImageField(upload_to='images/', blank=False)

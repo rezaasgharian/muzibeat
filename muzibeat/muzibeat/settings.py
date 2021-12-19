@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'knox',
     'django_rest_passwordreset',
+    'player',
 ]
 
 

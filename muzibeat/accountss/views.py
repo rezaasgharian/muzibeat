@@ -96,7 +96,7 @@ def Post_users(request):
             images = request.FILES.getlist('thumbnail')
             count = len(images)
             if count > 10:
-                raise ValidationError('please enter > 10')
+                raise ValidationError('Maximum number of songs must be 10')
             for cnt in range(int(count)):
                 ext = os.path.splitext(str(images[cnt]))[1]
                 print(ext)
