@@ -21,4 +21,5 @@ urlpatterns = [
     path('comment', comment, name="comment"),
     path('block', block, name="block"),
     path('category_user/<str:title>', Category_user, name="category_user"),
+    path('followings_posts/<int:self_id>', followings_posts, name="followings_posts"),
 ]
