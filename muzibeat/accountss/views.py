@@ -13,7 +13,6 @@ from shortuuidfield import ShortUUIDField
 from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.forms import modelformset_factory
@@ -39,6 +38,7 @@ def Login(request):
             return render(request, "accountss/login.html", context)
     else:
         return render(request, 'accountss/login.html', {})
+
 
 
 def Register(request):
@@ -96,7 +96,7 @@ def Post_users(request):
             images = request.FILES.getlist('thumbnail')
             count = len(images)
             if count > 10:
-                raise ValidationError('please enter > 10')
+                raise ValidationError('Maximum number of songs must be 10')
             for cnt in range(int(count)):
                 ext = os.path.splitext(str(images[cnt]))[1]
                 print(ext)
