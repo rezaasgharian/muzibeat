@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
@@ -35,9 +36,10 @@ class Album(models.Model):
 
 
 class Song(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     title = models.CharField(max_length=50, null=False, blank=False)
     description = models.CharField(max_length=250, null=True, blank=True)
-    artist = models.ForeignKey(Artist, null=False, blank=False, on_delete=models.CASCADE)
+    artist = models.CharField(max_length=100,null=True)
     album = models.ForeignKey(Album, null=True, blank=True, on_delete=models.CASCADE)
     song = models.FileField(upload_to='musics/', null=False, blank=False)
     thumbnail = models.ImageField(upload_to='images/', blank=False)
