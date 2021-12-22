@@ -150,10 +150,13 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
         'knox.auth.TokenAuthentication',
     ),
+    # 'DEFAULT_PARSER_CLASSES': [
+    #     'rest_framework.parsers.JSONParser',
+    # ]
 }
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

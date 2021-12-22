@@ -1,3 +1,4 @@
+from rest_framework.parsers import JSONParser
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from django.core.exceptions import ValidationError
@@ -33,23 +34,20 @@ def Music(request):
         if not request.data['artist'] or len(request.data['artist']) < 3:
             raise ValueError("artist must be valid")
 
+        # up_song = request.FILES['song']
+        # print(up_song)
         music_list = Song.objects.create(user_id=request.user.user_id, title=request.data['title'], description=request.data['description'],artist=request.data['artist'])
         if music_list:
             return HttpResponse(request.data)
         else:
             return HttpResponse("error")
-        #
-        #
-        #
-        # if not request.POST['album'] or len(request.POST['album']) <3:
-        #     raise ValueError("album must be valid")
-        # album = Song.objects.create(album=request.POST['album'])
-        # album.save()
-        #
+
+
+
         # if request.Files.get('song', False):
         #     songs = request.FILES.getlist('song')
         #     count = len(songs)
-        #     if count>10:
+        #     if count > 10:
         #         raise ValidationError('Maximum number of songs must be 10')
         #     for sng in range(int(count)):
         #         ext = os.path.splitext(str(songs[sng]))[1]
@@ -58,4 +56,31 @@ def Music(request):
         #         raise ValidationError('Unsupported file.')
         #     for song in songs:
         #         sng = Song.objects.create(song=song)
-        #         sng.save()
+        #     sng.save()
+
+
+@api_view(['POST'])
+def album(request):
+    if request.method == "POST":
+        if not request.data['title'] or len(request.data['title']) < 3:
+            raise ValidationError('title must be valid')
+        if not request.data['description'] or len(request.data['description']) < 3:
+            raise ValidationError('description must be valid')
+        if not request.data['artist'] or len(request.data['artist']) < 3:
+            raise ValidationError('artist must be valid')
+        album_list = Album.objects.create(title=request.data['title'],description=request.data['description'],artist=request.data['artist'])
+        if album_list:
+            return HttpResponse(request.data)
+        else:
+            return HttpResponse("error")
+
+@api_view(['POST'])
+def artist(request):
+    if request.method == "POST":
+        if not request.data['name'] or len(request.data['name']) < 3:
+            raise ValidationError('name must be valid')
+        artist_list = Artist.objects.create(user_id=request.user.user_id,name=request.data['name'])
+        if artist_list:
+            return HttpResponse(request.data)
+        else:
+            return HttpResponse("error")
