@@ -9,3 +9,6 @@ urlpatterns = [
     path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('api/createMusic/', Music, name="createMusic"),
+    path('api/createAlbum/', album, name="createAlbum"),
+    path('api/createArtist/', artist, name="createArtist"),
+]
