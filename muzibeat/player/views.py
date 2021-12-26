@@ -1,4 +1,5 @@
 from rest_framework.parsers import JSONParser
+from django.shortcuts import get_object_or_404
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from django.core.exceptions import ValidationError
@@ -31,17 +32,12 @@ def Music(request):
             raise ValueError("title must be valid")
         if not request.data['description'] or len(request.data['description']) < 3:
             raise ValueError("description must be valid")
-        if not request.data['artist'] or len(request.data['artist']) < 3:
-            raise ValueError("artist must be valid")
 
-        # up_song = request.FILES['song']
-        # print(up_song)
-        music_list = Song.objects.create(user_id=request.user.user_id, title=request.data['title'], description=request.data['description'],artist=request.data['artist'])
+        music_list = Song.objects.create(user_id=request.user.user_id, title=request.data['title'], description=request.data['description'],artist=request.data['artist'], songs=request.FILES['song'])
         if music_list:
             return HttpResponse(request.data)
         else:
             return HttpResponse("error")
-
 
 
         # if request.Files.get('song', False):
@@ -66,9 +62,11 @@ def album(request):
             raise ValidationError('title must be valid')
         if not request.data['description'] or len(request.data['description']) < 3:
             raise ValidationError('description must be valid')
-        if not request.data['artist'] or len(request.data['artist']) < 3:
-            raise ValidationError('artist must be valid')
-        album_list = Album.objects.create(title=request.data['title'],description=request.data['description'],artist=request.data['artist'])
+        # if not request.data['artist'] or len(request.data['artist']) < 3:
+        #     raise ValidationError('artist must be valid')
+        artist_list = get_object_or_404(Artist, user=request.user.user_id)
+        print(artist_list)
+        album_list = Album.objects.create(title=request.data['title'],description=request.data['description'],artist=artist_list)
         if album_list:
             return HttpResponse(request.data)
         else:
