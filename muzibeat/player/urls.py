@@ -11,4 +11,5 @@ urlpatterns = [
     path('api/createMusic/', Music, name="createMusic"),
     path('api/createAlbum/', album, name="createAlbum"),
     path('api/createArtist/', artist, name="createArtist"),
+    path('api/songUpload/', FileView.as_view(), name="fileUpload"),
 ]

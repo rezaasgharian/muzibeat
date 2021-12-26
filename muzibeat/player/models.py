@@ -36,7 +36,7 @@ class Album(models.Model):
 
 
 class Song(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     title = models.CharField(max_length=50, null=False, blank=False)
     description = models.CharField(max_length=250, null=True, blank=True)
     artist = models.ForeignKey(Artist, null=True, blank=True, on_delete=models.CASCADE)
