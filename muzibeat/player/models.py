@@ -43,3 +43,15 @@ class Song(models.Model):
     album = models.ForeignKey(Album, null=True, blank=True, on_delete=models.CASCADE)
     songs = models.FileField(upload_to='musics/', null=False, blank=False)
     thumbnail = models.ImageField(upload_to='images/', blank=False)
+
+
+class SongLike(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, null=True, blank=True, on_delete=models.CASCADE)
+
+
+class Songreport(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, null=True, blank=True, on_delete=models.CASCADE)
+    reporting = models.IntegerField(default=False)
+    message = models.TextField(null=True)

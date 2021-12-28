@@ -15,6 +15,7 @@ from django.contrib.auth import login
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import *
+from django.contrib.auth.decorators import login_required
 import os
 from django.http import HttpResponse
 
@@ -100,3 +101,33 @@ def artist(request):
             return HttpResponse(request.data)
         else:
             return HttpResponse("error")
+
+
+
+@login_required(login_url='/login/')
+@api_view(['POST'])
+def apisongLike(request):
+    if request.method == "POST":
+        song_id = request.data['id']
+        if SongLike.objects.filter(user_id=request.user.user_id,song=song_id).exists():
+            SongLike.objects.filter(user_id=request.user.user_id,song=song_id).delete()
+            return HttpResponse("disliked")
+        else:
+            newlike = SongLike(user_id=request.user.user_id, song_id=song_id)
+            newlike.save()
+            return HttpResponse('liked')
+
+
+
+@login_required(login_url='/login/')
+@api_view(['POST'])
+def apisongreport(request):
+    if request.method == "POST":
+        song_id = request.data['id']
+        message = request.data['message']
+        if Songreport.objects.filter(user_id=request.user.user_id, song_id=song_id).exists():
+            return HttpResponse("This song is reported before")
+        else:
+            reports = Songreport(user_id=request.user.user_id, message= message, song_id=song_id)
+            reports.save()
+            return HttpResponse("Thanks for informing us... we will check it")
