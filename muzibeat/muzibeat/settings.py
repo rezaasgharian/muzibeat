@@ -152,7 +152,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
-        'knox.auth.TokenAuthentication',
+        # 'knox.auth.TokenAuthentication',
     ),
 
     # 'DEFAULT_PARSER_CLASSES': [

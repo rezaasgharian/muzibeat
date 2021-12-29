@@ -1,7 +1,13 @@
 from rest_framework.parsers import JSONParser
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import FileSerializer
 from django.core.exceptions import ValidationError
 from knox.views import LoginView as KnoxLoginView
 from django.shortcuts import render
@@ -9,6 +15,7 @@ from django.contrib.auth import login
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import *
+from django.contrib.auth.decorators import login_required
 import os
 from django.http import HttpResponse
 
@@ -32,12 +39,24 @@ def Music(request):
             raise ValueError("title must be valid")
         if not request.data['description'] or len(request.data['description']) < 3:
             raise ValueError("description must be valid")
-
-        music_list = Song.objects.create(user_id=request.user.user_id, title=request.data['title'], description=request.data['description'],artist=request.data['artist'], songs=request.FILES['song'])
+        artist_list = get_object_or_404(Artist,user=request.user.user_id)
+        music_list = Song.objects.create(user_id=request.user.user_id, title=request.data['title'], description=request.data['description'],artist=artist_list, songs=request.FILES['song'])
         if music_list:
             return HttpResponse(request.data)
         else:
             return HttpResponse("error")
+
+
+
+class FileView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    def post(self, request, *args, **kwargs):
+        file_serializer = FileSerializer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save()
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
         # if request.Files.get('song', False):
@@ -64,7 +83,7 @@ def album(request):
             raise ValidationError('description must be valid')
         # if not request.data['artist'] or len(request.data['artist']) < 3:
         #     raise ValidationError('artist must be valid')
-        artist_list = get_object_or_404(Artist, user=request.user.user_id)
+        artist_list = get_object_or_404(settings.AUTH_USER_MODEL, user=1)
         print(artist_list)
         album_list = Album.objects.create(title=request.data['title'],description=request.data['description'],artist=artist_list)
         if album_list:
@@ -82,3 +101,33 @@ def artist(request):
             return HttpResponse(request.data)
         else:
             return HttpResponse("error")
+
+
+
+@login_required(login_url='/login/')
+@api_view(['POST'])
+def apisongLike(request):
+    if request.method == "POST":
+        song_id = request.data['id']
+        if SongLike.objects.filter(user_id=request.user.user_id,song=song_id).exists():
+            SongLike.objects.filter(user_id=request.user.user_id,song=song_id).delete()
+            return HttpResponse("disliked")
+        else:
+            newlike = SongLike(user_id=request.user.user_id, song_id=song_id)
+            newlike.save()
+            return HttpResponse('liked')
+
+
+
+@login_required(login_url='/login/')
+@api_view(['POST'])
+def apisongreport(request):
+    if request.method == "POST":
+        song_id = request.data['id']
+        message = request.data['message']
+        if Songreport.objects.filter(user_id=request.user.user_id, song_id=song_id).exists():
+            return HttpResponse("This song is reported before")
+        else:
+            reports = Songreport(user_id=request.user.user_id, message= message, song_id=song_id)
+            reports.save()
+            return HttpResponse("Thanks for informing us... we will check it")
