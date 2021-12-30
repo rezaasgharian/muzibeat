@@ -154,4 +154,4 @@ def apiplaylist(request):
 def apisonglist(request):
     songlist = Song.objects.all()
     print(songlist)
-    return HttpResponse("Songlist")
+    return HttpResponse(songlist)
