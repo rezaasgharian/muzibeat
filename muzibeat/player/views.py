@@ -131,3 +131,17 @@ def apisongreport(request):
             reports = Songreport(user_id=request.user.user_id, message= message, song_id=song_id)
             reports.save()
             return HttpResponse("Thanks for informing us... we will check it")
+
+
+
+@login_required(login_url='/login/')
+@api_view(['POST'])
+def apiplaylist(request):
+    if request.method == "POST":
+        song_id = request.data['id']
+        if PlayList.objects.filter(user_id=request.user.user_id, song_id=song_id).exists():
+            return HttpResponse("This song is already in playlist")
+        else:
+            playlist = PlayList(user_id=request.user.user_id, song_id=song_id)
+            playlist.save()
+            return HttpResponse("This song is added to your playlist")
