@@ -145,3 +145,13 @@ def apiplaylist(request):
             playlist = PlayList(user_id=request.user.user_id, song_id=song_id)
             playlist.save()
             return HttpResponse("This song is added to your playlist")
+
+
+
+
+@login_required(login_url='/login/')
+@api_view(['GET'])
+def apisonglist(request):
+    songlist = Song.objects.all()
+    print(songlist)
+    return HttpResponse("Songlist")
