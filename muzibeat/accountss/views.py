@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 import os
+from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.views.generic.edit import UpdateView, DeleteView
 from django.core.exceptions import ValidationError
@@ -31,11 +32,8 @@ def Login(request):
             login(request, user)
             return redirect("accountss:profile")
         else:
-            context = {
-                "username": username,
-                "errormessage": "User not found"
-            }
-            return render(request, "accountss/login.html", context)
+            messages.error(request, 'username or password is incorrect, please try again')
+            return render(request, "accountss/login.html")
     else:
         return render(request, 'accountss/login.html', {})
 
@@ -48,15 +46,15 @@ def Register(request):
         form = UserCreateForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user = User.objects.create_user(username=data['username'], email=data['email'],
-                                            password=data['password_Confirmation'])
+            user = User.objects.create_user(username=data['username'], email=data['email'], password=data['password_Confirmation'])
             user.save()
             return redirect('accountss:login')
-
+        else:
+            messages.error(request, 'Something is wrong! Please try again')
     else:
         form = UserCreateForm()
     context = {'form': form}
-    return render(request, 'accountss/register.html', context)
+    return render(request, 'accountss/register.html')
 
 
 @login_required(login_url='/login/')
@@ -80,11 +78,10 @@ def Profiles(request):
 def Post_users(request):
     if request.method == 'POST':
         if not request.POST['title'] or len(request.POST['title']) < 3:
-            raise ValueError("title must be valid")
-        if not request.POST['des'] or len(request.POST['des']) < 3:
-            raise ValueError("description must be valid")
-        post = Post_user.objects.create(user_id=request.user.user_id, title=request.POST['title'],
-                                        description=request.POST['des'])
+            messages.error(request, 'The title can not be empty and must have at least 4 characters')
+        if not request.POST['des'] or len(request.POST['des']) < 10:
+            messages.error(request, 'The description can not be empty and must have at least 10 characters')
+        post = Post_user.objects.create(user_id=request.user.user_id, title=request.POST['title'], description=request.POST['des'])
         post.save()
 
         if request.POST['category']:
@@ -291,7 +288,7 @@ def block(request):
 def comment(request):
     if request.method == "POST":
         post_comment = request.POST['post_id']
-        post = get_object_or_404(Post_user,id = post_comment)
+        post = get_object_or_404(Post_user,id=post_comment)
         description = request.POST['description']
         print("income")
         comment_id = None

@@ -6,6 +6,8 @@ from django.core.mail import send_mail
 from django.db import models
 
 
+
+
 # Create your models here.
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
@@ -43,6 +45,10 @@ class Song(models.Model):
     album = models.ForeignKey(Album, null=True, blank=True, on_delete=models.CASCADE)
     songs = models.FileField(upload_to='musics/', null=False, blank=False)
     thumbnail = models.ImageField(upload_to='images/', blank=False)
+
+
+
+
 
 
 class SongLike(models.Model):

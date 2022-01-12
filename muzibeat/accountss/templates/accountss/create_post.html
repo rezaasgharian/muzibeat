@@ -11,7 +11,8 @@
        </h1>
        <hr>
        <form action="" method="post" enctype="multipart/form-data">
-         {% csrf_token %}
+        <p>{% include "accountss/messages.html" %}</p>
+        {% csrf_token %}
         <div class="form-group col-md-4 mt-3">
           <label for="title">title</label>
           <input type="text" class="form-control" id="title" name="title">

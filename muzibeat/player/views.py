@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import FileSerializer
 from django.core.exceptions import ValidationError
+from django.core import serializers
 from knox.views import LoginView as KnoxLoginView
 from django.shortcuts import render
 from django.contrib.auth import login
@@ -17,7 +18,7 @@ from rest_framework.response import Response
 from .models import *
 from django.contrib.auth.decorators import login_required
 import os
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 
 
@@ -148,10 +149,9 @@ def apiplaylist(request):
 
 
 
-
 @login_required(login_url='/login/')
 @api_view(['GET'])
 def apisonglist(request):
-    songlist = Song.objects.all()
-    print(songlist)
-    return HttpResponse(songlist)
+    data=list(Song.objects.values())
+    # serilized_objects =serializers.serialize('json',[songlist,])
+    return JsonResponse(data,safe=False)
