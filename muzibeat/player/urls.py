@@ -16,5 +16,7 @@ urlpatterns = [
     path('api/songreport/', apisongreport, name="songreport"),
     path('api/playlist/', apiplaylist, name="playlist"),
     path('api/songlist/', apisonglist, name="songlist"),
+    path('api/artistmusic/', apiartistmusics, name="artistmusics"),
+    path('api/albummusic/', apialbummusics, name="albummusics"),
 
 ]

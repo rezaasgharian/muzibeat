@@ -84,7 +84,7 @@ def album(request):
             raise ValidationError('description must be valid')
         # if not request.data['artist'] or len(request.data['artist']) < 3:
         #     raise ValidationError('artist must be valid')
-        artist_list = get_object_or_404(settings.AUTH_USER_MODEL, user=1)
+        artist_list = get_object_or_404(Artist, user_id=request.user.user_id)
         print(artist_list)
         album_list = Album.objects.create(title=request.data['title'],description=request.data['description'],artist=artist_list)
         if album_list:
@@ -110,8 +110,8 @@ def artist(request):
 def apisongLike(request):
     if request.method == "POST":
         song_id = request.data['id']
-        if SongLike.objects.filter(user_id=request.user.user_id,song=song_id).exists():
-            SongLike.objects.filter(user_id=request.user.user_id,song=song_id).delete()
+        if SongLike.objects.filter(user_id=request.user.user_id,song_id=song_id).exists():
+            SongLike.objects.filter(user_id=request.user.user_id,song_id=song_id).delete()
             return HttpResponse("disliked")
         else:
             newlike = SongLike(user_id=request.user.user_id, song_id=song_id)
@@ -129,7 +129,7 @@ def apisongreport(request):
         if Songreport.objects.filter(user_id=request.user.user_id, song_id=song_id).exists():
             return HttpResponse("This song is reported before")
         else:
-            reports = Songreport(user_id=request.user.user_id, message= message, song_id=song_id)
+            reports = Songreport(user_id=request.user.user_id, message=message, song_id=song_id)
             reports.save()
             return HttpResponse("Thanks for informing us... we will check it")
 
@@ -155,3 +155,21 @@ def apisonglist(request):
     data=list(Song.objects.values())
     # serilized_objects =serializers.serialize('json',[songlist,])
     return JsonResponse(data,safe=False)
+
+
+@api_view(['POST'])
+def apiartistmusics(request):
+    if request.method == 'POST':
+        artist_id = request.data['id']
+        print(artist_id)
+        artistsongs = serializers.serialize("json",Song.objects.filter(artist_id=artist_id))
+        return Response(artistsongs)
+
+
+
+@api_view(['POST'])
+def apialbummusics(request):
+    if request.method == 'POST':
+        album_id = request.data['id']
+        albumsongs = serializers.serialize("json",Song.objects.filter(album_id=album_id))
+        return Response(albumsongs)

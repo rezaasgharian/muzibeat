@@ -47,10 +47,6 @@ class Song(models.Model):
     thumbnail = models.ImageField(upload_to='images/', blank=False)
 
 
-
-
-
-
 class SongLike(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     song = models.ForeignKey(Song, null=True, blank=True, on_delete=models.CASCADE)
