@@ -1,32 +1,25 @@
-from django.contrib.auth import get_user_model
 from django.db import models
+from django.conf import settings
 
-User = get_user_model()
 
+# Create your models here.
 
-class Contact(models.Model):
-    user = models.ForeignKey(
-        User, related_name='friends', on_delete=models.CASCADE)
-    friends = models.ManyToManyField('self', blank=True)
+class Chat(models.Model):
+    roomname = models.CharField(blank=True, max_length=50)
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.roomname
 
 
 class Message(models.Model):
-    contact = models.ForeignKey(
-        Contact, related_name='messages', on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
+    related_chat = models.ForeignKey(Chat, on_delete=models.CASCADE, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.contact.user.username
-
-
-class Chat(models.Model):
-    participants = models.ManyToManyField(
-        Contact, related_name='chats', blank=True)
-    messages = models.ManyToManyField(Message, blank=True)
+    def last_message(self, roomname):
+        return Message.objects.filter(related_chat__roomname=roomname)
 
     def __str__(self):
-        return "{}".format(self.pk)
+        return self.author.username

@@ -38,6 +38,7 @@ def Login(request):
         return render(request, 'accountss/login.html', {})
 
 
+
 def Register(request):
     if request.user.is_authenticated:
         return redirect('accountss:profile')
@@ -67,8 +68,8 @@ def Profiles(request):
     posts = Post_user.objects.filter(user_id=request.user.user_id)
     context = {
         'profile': Profile.objects.get(user_id=request.user.user_id),
-        'posts':posts,
-        'user':request.user.user_id
+        'posts': posts,
+        'user': request.user.user_id
     }
     return render(request, 'accountss/profile.html', context)
 
@@ -156,7 +157,7 @@ def User_post(request, user_id):
         'videos': videos,
         'voices': voices,
         'files': files,
-        'likes':likes
+        'likes': likes
 
     }
     return render(request, 'accountss/posts.html', context)
@@ -165,8 +166,8 @@ def User_post(request, user_id):
 @login_required(login_url='/login/')
 def Post_details(request, post_id):
     context = {
-        'post':  get_object_or_404(Post_user, id=post_id),
-        'comments':  Post_comment.objects.filter(post_id_id=post_id),
+        'post': get_object_or_404(Post_user, id=post_id),
+        'comments': Post_comment.objects.filter(post_id_id=post_id),
     }
     return render(request, 'accountss/post_details.html', context)
 
@@ -235,7 +236,7 @@ def like(request):
         post_like = Post_like.objects.filter(post=post_id)
 
         if Post_like.objects.filter(user=request.user.user_id, post=post_id).exists():
-            Post_like.objects.filter(user=request.user.user_id,post=post_id).delete()
+            Post_like.objects.filter(user=request.user.user_id, post=post_id).delete()
             print("dissliked")
             return HttpResponse("dissliked")
         else:
@@ -248,7 +249,7 @@ def like(request):
 @login_required(login_url='/login/')
 def follow(request):
     if request.method == "POST":
-        user_id= request.POST['user_id']
+        user_id = request.POST['user_id']
         self_id = request.user.user_id
         if user_id and self_id:
             if User_Follow.objects.filter(user_id=user_id, self_id=self_id).exists():
@@ -293,11 +294,13 @@ def comment(request):
         comment_id = None
         if request.user.user_id and post_comment:
             if comment_id:
-                save_comment = Post_comment(user_id=request.user, comment_id=comment_id, post_id=post, description=description)
+                save_comment = Post_comment(user_id=request.user, comment_id=comment_id, post_id=post,
+                                            description=description)
                 save_comment.save()
                 return HttpResponse("success")
             else:
-                save_comment = Post_comment(user_id=request.user, comment_id=comment_id, post_id=post, description=description)
+                save_comment = Post_comment(user_id=request.user, comment_id=comment_id, post_id=post,
+                                            description=description)
                 save_comment.save()
                 print("saved")
                 return HttpResponse("success")
@@ -315,14 +318,32 @@ def category(request, title):
     return render(request, "accountss/category.html", context)
 
 
+@login_required(login_url='/login/')
 def report(request):
     if request.method == "POST":
         user_id = request.user.user_id
         post_id = request.POST['post_id']
         if user_id and post_id:
-            if Report.objects.filter(user_id=user_id,post_id=post_id).exists():
+            if Report.objects.filter(user_id=user_id, post_id=post_id).exists():
                 return HttpResponse("error")
             else:
-                reports = Report(user_id=user_id,post_id=post_id)
+                reports = Report(user_id=user_id, post_id=post_id)
                 reports.save()
                 return HttpResponse("success")
+
+
+def followings_posts(request, self_id):
+    following = User_Follow.objects.filter(self_id=self_id)
+    posts = []
+    for followings in following:
+        print(followings.use_id_id)
+        user_id = followings.use_id_id
+        post = Post_user.objects.filter( user_id=followings.use_id_id),
+        posts.append(post)
+
+    print(posts)
+    context = {
+            'following': following,
+            'Users_post': posts,
+        }
+    return render(request, 'accountss/followings.html', context)

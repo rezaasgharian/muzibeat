@@ -149,7 +149,8 @@ class Post_like(models.Model):
 
 class User_Follow(models.Model):
     self_id = models.ForeignKey(User, related_name='follower', blank=True, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, related_name='following', blank=True, on_delete=models.CASCADE)
+    use_id = models.ForeignKey(User, related_name='following', blank=True, on_delete=models.CASCADE)
+
 
 
 class Post_comment(models.Model):

@@ -42,12 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django_countries',
-    'accountss',
-    'payments',
-    'administrator',
-    'web',
     'channels',
     'chat',
+    'payments',
+    'administrator',
+    'accountss',
+    'web',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'knox',
     'django_rest_passwordreset',
     'player',
+    'live',
 ]
 
 
@@ -123,8 +124,8 @@ DATABASES = {
 # }
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
 }
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
