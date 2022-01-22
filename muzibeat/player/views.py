@@ -145,3 +145,4 @@ def apiplaylist(request):
             playlist = PlayList(user_id=request.user.user_id, song_id=song_id)
             playlist.save()
             return HttpResponse("This song is added to your playlist")
+
