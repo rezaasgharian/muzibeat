@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 import os
+from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.views.generic.edit import UpdateView, DeleteView
 from django.core.exceptions import ValidationError
@@ -48,15 +49,15 @@ def Register(request):
         form = UserCreateForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user = User.objects.create_user(username=data['username'], email=data['email'],
-                                            password=data['password_Confirmation'])
+            user = User.objects.create_user(username=data['username'], email=data['email'], password=data['password_Confirmation'])
             user.save()
             return redirect('accountss:login')
-
+        else:
+            messages.error(request, 'Something is wrong! Please try again', 'danger')
     else:
         form = UserCreateForm()
     context = {'form': form}
-    return render(request, 'accountss/register.html', context)
+    return render(request, 'accountss/register.html')
 
 
 @login_required(login_url='/login/')
@@ -80,11 +81,10 @@ def Profiles(request):
 def Post_users(request):
     if request.method == 'POST':
         if not request.POST['title'] or len(request.POST['title']) < 3:
-            raise ValueError("title must be valid")
-        if not request.POST['des'] or len(request.POST['des']) < 3:
-            raise ValueError("description must be valid")
-        post = Post_user.objects.create(user_id=request.user.user_id, title=request.POST['title'],
-                                        description=request.POST['des'])
+            messages.error(request, 'The title can not be empty and must have at least 4 characters', 'danger')
+        if not request.POST['des'] or len(request.POST['des']) < 10:
+            messages.error(request, 'The description can not be empty and must have at least 10 characters','danger')
+        post = Post_user.objects.create(user_id=request.user.user_id, title=request.POST['title'], description=request.POST['des'])
         post.save()
 
         if request.POST['category']:
@@ -96,13 +96,13 @@ def Post_users(request):
             images = request.FILES.getlist('thumbnail')
             count = len(images)
             if count > 10:
-                raise ValidationError('Maximum number of songs must be 10')
+                messages.error(request, 'Maximum number of songs must be 10', 'danger')
             for cnt in range(int(count)):
                 ext = os.path.splitext(str(images[cnt]))[1]
                 print(ext)
                 valid_extensions = ['.jpg', '.jpeg', '.png']
                 if not ext.lower() in valid_extensions:
-                    raise ValidationError('Unsupported file extension`.')
+                    messages.error(request, 'Unsupported file extension', 'danger')
             for image in images:
                 img = Images.objects.create(post_id=post.id, thumbnail=image)
                 img.save()
@@ -116,7 +116,7 @@ def Post_users(request):
                 video = Videos.objects.create(post_id=post.id, file=filename)
                 video.save()
             else:
-                raise ValidationError('Unsupported file extension.')
+                messages.error(request, 'Unsupported file extension', 'danger')
 
         if request.FILES.get('voice', False):
             voc = request.FILES['voice'].name
@@ -127,14 +127,14 @@ def Post_users(request):
                 voice = Voices.objects.create(post_id=post.id, file=filename)
                 voice.save()
             else:
-                raise ValidationError('Unsupported file extension.')
+                messages.error(request, 'Unsupported file extension', 'danger')
 
         if request.FILES.get('file', False):
             fil = request.FILES['file'].name
             ext = os.path.splitext(fil)[1]
             valid_extensions = ['.pdf']
             if not ext.lower() in valid_extensions:
-                raise ValidationError('Unsupported file extension.')
+                messages.error(request, 'Unsupported file extension', 'danger')
             else:
                 file = Files.objects.create(post_id=post.id, file=request.FILES['file'])
                 file.save()
@@ -220,7 +220,7 @@ def Change_Password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            messages.success(request, 'Password is successfully changed')
+            messages.success(request, 'Password is successfully changed', 'success')
             return redirect('accountss:profile')
         else:
             messages.error(request, 'Password is wrong!', 'danger')
