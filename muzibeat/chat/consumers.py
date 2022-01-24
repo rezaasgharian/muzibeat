@@ -4,7 +4,7 @@ from asgiref.sync import async_to_sync
 from .serializers import MessageSerializer
 from .models import Message ,Chat
 from rest_framework.renderers import JSONRenderer
-from muzibeat.accountss.models import User
+from accountss.models import User
 
 class ChatConsumer(WebsocketConsumer):
 
