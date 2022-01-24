@@ -157,6 +157,7 @@ def apisonglist(request):
     return JsonResponse(data,safe=False)
 
 
+
 @api_view(['POST'])
 def apiartistmusics(request):
     if request.method == 'POST':
