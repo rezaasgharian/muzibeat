@@ -41,7 +41,6 @@ def Login(request):
         return render(request, 'accountss/login.html', {})
 
 
-
 def Register(request):
     if request.user.is_authenticated:
         return redirect('accountss:profile')
@@ -49,7 +48,8 @@ def Register(request):
         form = UserCreateForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user = User.objects.create_user(username=data['username'], email=data['email'], password=data['password_Confirmation'])
+            user = User.objects.create_user(username=data['username'], email=data['email'],
+                                            password=data['password_Confirmation'])
             user.save()
             return redirect('accountss:login')
         else:
@@ -82,36 +82,41 @@ def Post_users(request):
     if request.method == 'POST':
         if not request.POST['title'] or len(request.POST['title']) < 3:
             messages.error(request, 'The title can not be empty and must have at least 4 characters', 'danger')
-        if not request.POST['des'] or len(request.POST['des']) < 10:
-            messages.error(request, 'The description can not be empty and must have at least 10 characters','danger')
-        post = Post_user.objects.create(user_id=request.user.user_id, title=request.POST['title'], description=request.POST['des'])
-        post.save()
+        elif not request.POST['des'] or len(request.POST['des']) < 10:
+            messages.error(request, 'The description can not be empty and must have at least 10 characters', 'danger')
+        else:
+            post = Post_user.objects.create(user_id=request.user.user_id, title=request.POST['title'],
+                                            description=request.POST['des'])
+            post.save()
 
         if request.POST['category']:
-            print(request.POST['category'])
-            cate = Category_user.objects.create(title=request.POST['category'], post_id=post.id)
-            cate.save()
+            if not request.POST['category'] or len(request.POST['category']) < 5:
+                messages.error(request, 'The category is False!')
+            else:
+                cate = Category_user.objects.create(title=request.POST['category'], post_id=post.id)
+                cate.save()
 
         if request.FILES.get('thumbnail', False):
             images = request.FILES.getlist('thumbnail')
             count = len(images)
             if count > 10:
                 messages.error(request, 'Maximum number of songs must be 10', 'danger')
-            for cnt in range(int(count)):
-                ext = os.path.splitext(str(images[cnt]))[1]
-                print(ext)
-                valid_extensions = ['.jpg', '.jpeg', '.png']
-                if not ext.lower() in valid_extensions:
-                    messages.error(request, 'Unsupported file extension', 'danger')
-            for image in images:
-                img = Images.objects.create(post_id=post.id, thumbnail=image)
-                img.save()
+            else:
+                for cnt in range(int(count)):
+                    ext = os.path.splitext(str(images[cnt]))[1]
+                    valid_extensions = ['.jpg', '.jpeg', '.png']
+                    if not ext.lower() in valid_extensions:
+                        messages.error(request, 'Unsupported file extension', 'danger')
+                        continue
+                for image in images:
+                    img = Images.objects.create(post_id=post.id, thumbnail=image)
+                    img.save()
 
         if request.FILES.get('video', False):
             vid = request.FILES['video'].name
             ext = os.path.splitext(vid)[1]
             valid_extensions = ['.mp4', '.mkv', '.mov', '.wmv']
-            if ext.lower() in valid_extensions:
+            if not ext.lower() in valid_extensions:
                 filename = os.path.splitext(vid)[0] + '.mp4'
                 video = Videos.objects.create(post_id=post.id, file=filename)
                 video.save()
@@ -146,7 +151,6 @@ def Post_users(request):
 def User_post(request, user_id):
     posts = Post_user.objects.filter(user_id=user_id)
     likes = Post_like.objects.filter(user=user_id)
-    print(likes)
     cate = Category_user.objects.all()
     images = Images.objects.all()
     videos = Videos.objects.all()
@@ -341,12 +345,12 @@ def followings_posts(request, self_id):
     for followings in following:
         print(followings.use_id_id)
         user_id = followings.use_id_id
-        post = Post_user.objects.filter( user_id=followings.use_id_id),
+        post = Post_user.objects.filter(user_id=followings.use_id_id),
         posts.append(post)
 
     print(posts)
     context = {
-            'following': following,
-            'Users_post': posts,
-        }
+        'following': following,
+        'Users_post': posts,
+    }
     return render(request, 'accountss/followings.html', context)

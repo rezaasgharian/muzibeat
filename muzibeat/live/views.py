@@ -1,55 +1,38 @@
-from urllib import request
+from django.http import HttpResponse, HttpResponseForbidden
+from django.shortcuts import redirect, get_object_or_404
+from django.utils import timezone
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.http import StreamingHttpResponse
-from django.http import HttpResponse
-import cv2
-import threading
-from django.views.decorators import gzip
+from .models import Stream
 
 
-# Create your views here.
-@gzip.gzip_page
-@login_required(login_url='/login/')
-def Home(request):
-    x = request.GET.get('value')
-    print(x)
-    return render(request, 'live/stream.html')
+@require_POST
+@csrf_exempt
+def start_stream(request):
+    """ This view is called when a stream starts.
+    """
+    stream = get_object_or_404(Stream, key=request.POST["name"])
+
+    # Ban streamers by setting them inactive
+    if not stream.user.is_active:
+        return HttpResponseForbidden("Inactive user")
+
+    # Don't allow the same stream to be published multiple times
+    if stream.started_at:
+        return HttpResponseForbidden("Already streaming")
+
+    stream.started_at = timezone.now()
+    stream.save()
+
+    # Redirect to the streamer's public username
+    return redirect(stream.user.username)
 
 
-class VideoCamera(object):
-    def __init__(self):
-        self.video = cv2.VideoCapture(0)
-        (self.grabbed, self.frame) = self.video.read()
-        threading.Thread(target=self.update, args=()).start()
-
-    def __del__(self):
-        self.video.release()
-
-
-    def get_frame(self):
-        image = self.frame
-        _, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
-
-    def update(self):
-        while True:
-            (self.grabbed, self.frame) = self.video.read()
-
-
-def gen(camera):
-    while True:
-
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n'
-               )
-
-
-def stream(request):
-    cam = VideoCamera()
-    return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
-    # elif request.method == "POST":
-    #     cam = VideoCamera()
-    #     return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
+@require_POST
+@csrf_exempt
+def stop_stream(request):
+    """ This view is called when a stream stops.
+    """
+    Stream.objects.filter(key=request.POST["name"]).update(started_at=None)
+    return HttpResponse("OK")

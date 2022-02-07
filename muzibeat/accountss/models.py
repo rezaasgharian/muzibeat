@@ -100,7 +100,7 @@ class Post_user(models.Model):
 
 class Category_user(models.Model):
     post = models.ForeignKey(Post_user, on_delete=models.CASCADE, null=True, blank=True)
-    title = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=100)
     status = models.BooleanField(default=True)
 
     class Meta:

@@ -1,13 +1,12 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <title>Video Live Stream</title>
+    <title> Live video stream </title>
   </head>
   <body>
-    <h1>Video Live Stream</h1>
-    <img src="{% url 'live:stream' %}" >
-    <form method="post">
-      {% csrf_token %}
-      <input type="submit" name="end" width="100px" height="100" style="color: crimson">
-    </form>
+  <center>
+    <h1> Live Video Stream </h1>
+    <img src = "{% url 'video_stream' %}">
+  </center>
   </body>
 </html>

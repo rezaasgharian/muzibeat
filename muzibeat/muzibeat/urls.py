@@ -29,7 +29,7 @@ urlpatterns = [
     path('', include('web.urls')),
     path('', include('player.urls')),
     path('', include('chat.urls')),
-    path('', include('live.urls')),
+    path('live/', include('live.urls')),
     path('chat/', include('chat.urls', namespace='chat')),
     path('api-auth/', include('rest_framework.urls')),
     path('rest-auth/', include('rest_auth.urls')),
@@ -38,5 +38,5 @@ urlpatterns = [
     # re_path(r'^.*', TemplateView.as_view(template_name='index.html'))
 ]
 
-# if settings.DEBUG:
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

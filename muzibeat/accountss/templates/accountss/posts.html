@@ -13,18 +13,18 @@
 
             {% for post in posts %}
                 {% if user == post.user_id%}
-                    <p>{{ post.title }}<a href="{% url 'accountss:delete_post' post.id %}">delete</a></p>
-            <p>{{ post.description}}</p>
+                    <p>{{ post.title }}</p>
+            <p>{{ post.description}}</p><p><a href="{% url 'accountss:delete_post' post.id %}">delete</a></p>
+            {% for image in images %}
+                {% if image.post_id == post.id %}
+                <img src="{{ image.thumbnail.url }}" width="200px" height="200px"/>
+                {% endif %}
+            {% endfor %}
                     {% for category in categories %}
                         {% if category.post_id == post.id %}
                             <p>#{{ category.title }}</p>
                         {% endif %}
                     {% endfor %}
-            {% for image in images %}
-                {% if image.post_id == post.id %}
-            <img src="{{ image.thumbnail.url }}" width="200px" height="200px"/>
-                {% endif %}
-            {% endfor %}
         {% for video in videos %}
                 {% if video.post_id == post.id %}
         <p>{{ video.file }}</p>
@@ -42,9 +42,10 @@
             {% endfor %}
                 {% endif %}
             {% endfor %}
+
         <br>
         {% for post in posts %}
-        <div id="post{{post.id}}">{{ post }}
+        <div id="post{{post.id}}">
             {% if likes.count %}
             {% for like in likes %}
                 {% if like.post_id == post.id %}
@@ -60,12 +61,7 @@
 
         {% endfor %}
         </div>
-<!--        <video width="320" height="240" controls>-->
-<!--            <source src="{{ videos.file.url }}" type="video/mp4">-->
-<!--        </video>-->
-<!--        <audio width="320" height="240" controls>-->
-<!--            <source src="{{ voices.file.url }}" type="voice/mp3">-->
-<!--        </audio>-->
+
     </div>
         <script>
             let like = document.getElementById("like");
